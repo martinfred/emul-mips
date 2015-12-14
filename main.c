@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
 	rs = 2000000000;
 	rt = 200000000;
 
-	printf("plop plop ");
+	printf("plop plop plop");
 	printf("\n\n\n         <[°_°]> EMUL MIPS <[°_°]>         \n\n\n");
 
 	if(argc == 2){ /*__________mode file__________*/
