@@ -21,9 +21,6 @@ int main(int argc, char *argv[]){
 	rs = 2000000000;
 	rt = 200000000;
 
-	printf("plop plop plop");
-	printf("plop plop");
-	printf("plop");
 
 	printf("encore un test ...");
 	
