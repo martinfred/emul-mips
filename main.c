@@ -23,6 +23,7 @@ int main(int argc, char *argv[]){
 
 	printf("plop plop plop");
 	printf("plop plop");
+	printf("plop");
 
 	
 	printf("\n\n\n         <[°_°]> EMUL MIPS <[°_°]>         \n\n\n");
