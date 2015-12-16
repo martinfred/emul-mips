@@ -25,6 +25,7 @@ int main(int argc, char *argv[]){
 	printf("plop plop");
 	printf("plop");
 
+	printf("encore un test ...");
 	
 	printf("\n\n\n         <[°_°]> EMUL MIPS <[°_°]>         \n\n\n");
 
