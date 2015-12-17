@@ -318,7 +318,6 @@ int compile(char instruction[]){
 
 }
 
-
 int fileCompile(char file[], char * fileName){
 
 	FILE *fileI;
