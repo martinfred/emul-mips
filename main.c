@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
 
 			printf("compile : %X\n",inst);
 
-			run(inst);
+			
 		}
 
 
