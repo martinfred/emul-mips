@@ -1,4 +1,3 @@
-#Ceci est un test Martin, et pas un coupe papier car il n'y a pas de livre. Fromage
 all : main.o compiler.o display.o registers.o controlUnit.o alu.o memory.o
 	gcc -o emul-mips main.o compiler.o display.o registers.o controlUnit.o alu.o memory.o
 
