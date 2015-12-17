@@ -1,6 +1,5 @@
-SW $t0, 0x0A	#On met 10 en mémoire 
-SW $t1, 0x05	#On met 5 en mémoire
-SLT $t2, $t0, $t1	#t2 = 0 
-SLT $t3, $t1, $t0	#t3 = 1 
-SW $t1, 0x0A	#On met 10 en mémoire
-SLT $t4, $t0, $t1	#t4 = 1
+SW $t0, 0x10	#On met 0001 0000 en mémoire 
+SLI $t0, $t0, 0x03	#Décalage gauche de 3 t0 = 1000 0000
+SRI $t0, $t0, 0x07	#Décalage droite de 7 t0 = 0000 0001
+ROTR $t0, $t0, 0x04	#Rotation droite de 4 t0 = 0001 0000
+SLI $t0, $t0, 0x04	#Décalage gauche de 4 t0 = 0000 0000
