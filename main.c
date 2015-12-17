@@ -2,10 +2,6 @@
 #include <string.h>
 
 #include "compiler.h"
-#include "display.h"
-#include "registers.h"
-#include "controlUnit.h"
-#include "alu.h"
 #include "memory.h"
 
 int main(int argc, char *argv[]){
@@ -18,13 +14,9 @@ int main(int argc, char *argv[]){
 
 	int i;
 
-	rs = 2000000000;
-	rt = 200000000;
-
-
-	printf("encore un test ...");
-	
 	printf("\n\n\n         <[°_°]> EMUL MIPS <[°_°]>         \n\n\n");
+	printf("         V1 - traduction des instrucions       ");
+
 
 	if(argc == 2){ /*__________mode file__________*/
 
@@ -33,11 +25,7 @@ int main(int argc, char *argv[]){
 		memoryCompile(argv[1]);
 		fileCompile(argv[1],file);
  	
-		/* printf("file : %s\n",file); ????? */
-
-		memoryDisplay();
-
-
+		
 
 
 	} else { /*__________mode live__________*/
