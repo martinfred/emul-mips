@@ -8,7 +8,7 @@ int run(int adresse){
 		
 			/*________Instruction Fetch________*/			
 
-		if(0 != exe(memoryRead(adresse)){
+		if(0 != exe(memoryRead(adresse))){
 			
 			perror("inxtruction execution error !");
 			return -1;
@@ -34,8 +34,7 @@ int exe(int instruction){
 	int opCode;
 
 	int rs,rt,rd,arg;
-	int irs,irt,ird;
-
+	int irs, irt, ird;
 	
 	/*________Instruction Decode________*/
 
@@ -73,7 +72,7 @@ int exe(int instruction){
 			break;
 
 		case 8 :
-			ADDI(&rd,rs,arg);
+			/* ADDI(&rd,rs,arg); */
 			break;
 
 	

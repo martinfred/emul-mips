@@ -19,5 +19,5 @@ controlUnit.o : controlUnit.c
 alu.o : alu.c
 	gcc -c alu.c -Wall -ansi -pedantic -o alu.o
 
-memory.o: memory?c
+memory.o: memory.c
 	gcc -c memory.c -Wall -ansi -pedantic -o memory.o
