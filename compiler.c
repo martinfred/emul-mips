@@ -242,19 +242,20 @@ int compile(char instruction[]){
 
 	}
 
+
 	if(strcmp(operation,"OR") == 0) {
 
-		opCode = 0;
+		opCode = 37;
 
-		res = 0;
+		res = (r[1] << 21) | (r[2] << 16) | (r[0] << 11) | opCode;
 
 	}
 
 	if(strcmp(operation,"ROTR") == 0) {
 
-		opCode = 0;
+		opCode = 2;
 
-		res = 0;
+		res = (r[1] << 16) | (r[0] << 11) | (arg << 6);
 
 	}
 
@@ -262,55 +263,55 @@ int compile(char instruction[]){
 
 		opCode = 0;
 
-		res = 0;
+		res = (r[1] << 16) | (r[0] << 11) | (arg << 6);
 
 	}
 
 	if(strcmp(operation,"SLT") == 0) {
 
-		opCode = 0;
+		opCode = 42;
 
-		res = 0;
+		res = (r[1] << 21) | (r[2] << 16) | (r[0] << 11) | opCode;
 
 	}
 
 	if(strcmp(operation,"SRL") == 0) {
 
-		opCode = 0;
+		opCode = 2;
 
-		res = 0;
+		res = (r[1] << 16) | (r[0] << 11) | arg << 6 | opCode;
 
 	}
 
 	if(strcmp(operation,"SUB") == 0) {
 
-		opCode = 0;
+		opCode = 34;
 
-		res = 0;
+		res = (r[1] << 21) | (r[2] << 16) | (r[0] << 11) | opCode;
 
 	}
 
 	if(strcmp(operation,"SW") == 0) {
 
-		opCode = 0;
+		opCode = 43;
 
-		res = 0;
+		res = (opCode << 26) | (r[1] << 21) | (r[0] << 16) | arg;
 
 	}
 
 	if(strcmp(operation,"SYSCALL") == 0) {
 
-		opCode = 0;
+		opCode = 12;
 
-		res = 0;
+		res = (arg << 6) | opCode;
 
 	}
 
 	if(strcmp(operation,"XOR") == 0) {
 
-		opCode = 0;
+		opCode = 38;
 
-		res = 0;
+		res = (r[1] << 21) | (r[2] << 16) | (r[0] << 11) | opCode;
 
 	}
 
