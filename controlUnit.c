@@ -1,4 +1,7 @@
 #include "controlUnit.h"
+#define RTYPE	1
+#define ITYPE	2
+#define JTYPE	3
 
 int run(int adresse){
 
@@ -32,9 +35,11 @@ int run(int adresse){
 int exe(int instruction){
 
 	int opCode;
+	int type = -1;
 
-	int rs,rt,rd,arg;
-	int irs, irt, ird;
+	int rs, rt, rd, arg, hi, lo;
+	int irs, irt, ird, ihi, ilo;
+	
 	
 	/*________Instruction Decode________*/
 
@@ -68,14 +73,26 @@ int exe(int instruction){
 	
 	switch(opCode){
 		case 32 :
-			ADD(&rd,rs,rt);
+			type = RTYPE;
+			ADD(&rd, rs, rt);
 			break;
 
 		case 8 :
-			/* ADDI(&rd,rs,arg); */
+			type = ITYPE;
+			ADDI(&rd, rs, arg);
 			break;
-
-	
+		case 24 :
+			type = RTYPE;
+			MULT(&hi, &lo, rs, rt);
+			break;
+		case 26 :
+			type = RTYPE;
+			DIV(&hi, &lo, rs, rt);
+			break;
+		case 34 : 
+			type = RTYPE;
+			SUB(&rd, rs, rt);
+			break;
 	}
 
 
@@ -86,4 +103,3 @@ int exe(int instruction){
 
 	return 0;
 }
-
