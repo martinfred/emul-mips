@@ -11,9 +11,20 @@ int registersInit(void){
 }
 
 
-void registersWrite(int r, int n){
+int registersWrite(int r, int n){
 
-	registers[r] = n;
+	int i = -1;
+
+	if(r > 0 && r <= 33){	
+
+		registers[r] = n;
+
+		i = 0;
+
+	}
+
+	
+	return i;	
 
 }
 
