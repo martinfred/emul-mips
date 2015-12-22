@@ -1,4 +1,7 @@
 
+/* registers initialisation */
+int registersInit(void);
+
 /* This function write the interger n in the register r */
 void registersWrite(int r, int n);
 
