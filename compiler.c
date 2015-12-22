@@ -110,7 +110,7 @@ int compile(char instruction[]){
 
 		opCode = 32;
 
-		res = (r[1] << 21) | (r[2] << 16) | (r[0] << 11) | opCode;
+		res = (0b000000 << 26) | (r[1] << 21) | (r[2] << 16) | (r[0] << 11) | opCode;
 
 	}
 
@@ -204,9 +204,9 @@ int compile(char instruction[]){
 
 	if(strcmp(operation,"LW") == 0) {
 
-		opCode = 35; 
+		opCode = 35; /* __________ -> Base ? ___________*/
 
-		res = (opCode << 26) | (r[1] << 21) | (r[0] << 16) | arg;
+		res = 0;
 
 	}
 
@@ -241,6 +241,7 @@ int compile(char instruction[]){
 		res = 0;
 
 	}
+
 
 	if(strcmp(operation,"OR") == 0) {
 
@@ -317,6 +318,7 @@ int compile(char instruction[]){
 	return res;
 
 }
+
 
 int fileCompile(char file[], char * fileName){
 

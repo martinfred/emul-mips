@@ -1,6 +1,0 @@
-SW $t0, 0x0A	#On met 10 en mémoire
-SW $t1, 0x04	#On met 4 en mémoirE
-ADD $t0, $t1, $t2	#On fait t0+t1. Rés dans t2
-SUB $t0, $t1, $t3	#On fait t0-t1. Rés dans t3
-MULT $t0, $t1	#On fait t0*t1. Rés dans HI et LO
-DIV $t0, $t1	#On fait t0/t1. Rés dans HI et LO

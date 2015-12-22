@@ -5,8 +5,6 @@
 #include "memory.h"
 
 int run(int adresse);
-
-
 int exe(int instruction);
 
 
