@@ -66,3 +66,64 @@ int DIV(int *HI,int *LO, int rs, int rt){
 
 	return 0;
 }
+int AND(int *rd, int rs, int rt){
+	*rd = rs & rt;
+	return 0;
+}
+int OR(int *rd, int rs, int rt){
+	*rd = rs | rt;
+	return 0;
+}
+int XOR(int *rd, int rs, int rt){
+	*rd = rs ^ rt;
+	return 0;
+}
+int ROTR(int *rd, int rt, int sa){
+	/*fuuuuuuuuuuu*/
+	return 0;
+}
+int SLL(int *rd, int rt, int sa){
+	return 0;
+}
+int SRL(int *rd, int rt, int sa){
+	return 0;
+}
+int SLT(int *rd, int rs, int rt){
+	return 0;
+}
+int LW(int *rt, int rs, int sa){
+	return 0;
+}
+int SW(int *rs, int sa, int rt){
+	return 0;
+}
+int LUI(int *rt, int sa){
+	return 0;
+}
+int MFHI(int *rd){
+	return 0;
+}
+int MFLO(int *rd){
+	return 0;
+}
+int BEQ(int rs, int rt, int sa){
+	return 0;
+}
+int BNE(int rs, int rt, int sa){
+	return 0;
+}
+int BGTZ(int *rs, int sa){
+	return 0;
+}
+int BLEZ(int *rs, int sa){
+	return 0;
+}
+int J(int sa){
+	return 0;
+}
+int JAL(int sa){
+	return 0;
+}
+int JR(int rs){
+	return 0;
+}
