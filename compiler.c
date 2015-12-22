@@ -1,4 +1,4 @@
-#include "compiler.h"
+nclude "compiler.h"
 
 
 int compile(char instruction[]){
@@ -204,9 +204,9 @@ int compile(char instruction[]){
 
 	if(strcmp(operation,"LW") == 0) {
 
-		opCode = 0; /* __________ -> Base ? ___________*/
+		opCode = 35; 
 
-		res = 0;
+		res = (opCode << 26) | (r[1] << 21) | (r[0] << 16) | arg;
 
 	}
 
@@ -241,7 +241,6 @@ int compile(char instruction[]){
 		res = 0;
 
 	}
-
 
 	if(strcmp(operation,"OR") == 0) {
 
@@ -318,7 +317,6 @@ int compile(char instruction[]){
 	return res;
 
 }
-
 
 int fileCompile(char file[], char * fileName){
 
