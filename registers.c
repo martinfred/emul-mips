@@ -13,3 +13,9 @@ int registersRead(int r){
 	return registers[r];
 }
 
+int nti(char name[]){
+
+
+
+	return 0;
+}
