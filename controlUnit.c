@@ -31,33 +31,39 @@ int run(int adresse){
 int exe(int instruction){
 
 	int opCode;
+	int type = -1;
 
-	int rs,rt,rd,arg;
-	int irs, irt, ird;
+	int rs, rt, rd, arg, hi, lo;
+	int irs, irt, ird, ihi, ilo;
+	
 	
 	/*________Instruction Decode________*/
+	/*________Register Fetch________*/
 
+	if(((63 << 26) & instruction) == 0) /* SPECIAL */
+	{ 
+		opCode = instruction & 63;	/*masque*/
+		/*RTYPE*/
+		irs = (31 << 21) & instruction;
+		irt = (31 << 16) & instruction;
+		ird = (31 << 11) & instruction;
+		arg = 0xFFFF & instruction;
 
-	if(0 == ((63 << 26) & instruction)){ /* SPECIAL */
+	}else{
+		opCode = instruction & (63 << 26);	/*masque*/
 
-		opCode = instruction & 63;
-
-	} else {
-
-		opCode = instruction & (63 << 26);
-
+		if ((opCode == 2) | (opCode == 3))
+		{
+			/*JTYPE*/
+			arg = 0x3FFFFFF & instruction;
+		}else{
+			/*ITYPE*/
+			irs = (31 << 21) & instruction;
+			irt = (31 << 16) & instruction;
+		}	arg = 0xFFFF & instruction;
 	}
 
 	printf("opCode : %d\n",opCode); /* DEBUG */
-
-
-	/*________Register Fetch________*/
-
-	/* lol lol plop plop ... */	
-	irs = (31 << 21) & instruction;
-	irt = (31 << 16) & instruction;
-	ird = (31 << 11) & instruction;
-	arg = 65535 & instruction;
 
 	rs = registersRead(rs);
 	rt = registersRead(rt);
@@ -66,20 +72,109 @@ int exe(int instruction){
 	/*_______Execute_________*/
 	
 	switch(opCode){
-
+		case 32 :
+			ADD(&rd, rs, rt);
+			break;
 
 		case 8 :
-			/* ADDI(&rd,rs,arg); */
+			ADDI(&rd, rs, arg);
+			break;
+
+		case 36 :
+			AND(&rd, rs, rt);
+			break;
+
+		case 4 :
+			BEQ(rs, rt, arg);
+			break;
+
+		case 7 :
+			BGTZ(&rs, arg);
+			break;
+
+		case 6 :
+			BLEZ(&rs, arg);
+			break;
+
+		case 5 :
+			BNE(rs, rt, arg);
 			break;
 
 		case 26 :
-			DIV(&rd,rs,rt);
+			DIV(&hi, &lo, rs, rt);
 			break;
-		
-		case 32 :
-			ADD(&rd,rs,rt);
+
+		case 2 :
+			J(arg);
 			break;
-	
+
+		case 3 :
+			JAL(arg);
+			break;
+
+		/*case 8 :
+			JR(rs);
+			break;*/
+
+		case 15 :
+			LUI(&rt, arg);
+			break;
+
+		case 35 :
+			LW(&rt, rs, arg);
+			break;
+
+		case 16 :
+			MFHI(&rd);
+			break;
+
+		case 18 :
+			MFLO(&rd);
+			break;
+
+		case 24 :
+			MULT(&hi, &lo, rs, rt);
+			break;
+
+		case 37 :
+			OR(&rd, rs, rt);
+			break;
+
+		/*case 2 :
+			ROTR(&rt, rs, arg);
+			break;*/
+
+		case 0 : 
+			SLL(&rd, rs, arg);
+			break;
+
+		case 42 : 
+			SLT(&rd, rs, rt);
+			break;
+
+		/*case 2 : 
+			SRL(&rd, rs, arg);
+			break;*/
+
+		case 34 : 
+			SUB(&rd, rs, rt);
+			break;
+
+		case 43 : 
+			SW(&rs, arg, rt);
+			break;
+
+		/*case 12 : 
+			SYSCALL();
+			break;*/
+
+		case 38 : 
+			XOR(&rd, rs, rt);
+			break;
+
+		default :
+			printf("ERROR instruction\n");
+			break;
 	}
 
 	/*
