@@ -3,4 +3,5 @@
 
 #include "memory.h"
 
+/* this function show the memory */
 int memoryDisplay(void);
