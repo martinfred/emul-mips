@@ -66,22 +66,3 @@ int DIV(int *HI,int *LO, int rs, int rt){
 
 	return 0;
 }
-int AND(int *rd, int rs, int rt){
-	*rd = rs & rt;
-	return 0;
-}
-int OR(int *rd, int rs, int rt){
-	*rd = rs | rt;
-	return 0;
-}
-int XOR(int *rd, int rs, int rt){
-	*rd = rs ^ rt;
-	return 0;
-}
-int ROTR(int *rd, int rt, int sa){
-	/*fuuuuuuuuuuu*/
-	return 0;
-}
-int SLL(int *rd, int rt, int sa);
-int SRL(int *rd, int rt, int sa);
-int SLT(int *rd, int rs, int rt);

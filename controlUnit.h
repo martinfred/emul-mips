@@ -4,7 +4,10 @@
 #include "registers.h"
 #include "memory.h"
 
+/* This function manage the instruction of a program*/
 int run(int adresse);
+
+/* This function execute one instruction */
 int exe(int instruction);
 
 
