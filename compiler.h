@@ -5,4 +5,3 @@
 
 int compile(char instruction[]);
 int fileCompile(char file[], char * fileName);
-int memoryCompile(char file[]);

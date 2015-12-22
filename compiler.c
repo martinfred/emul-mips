@@ -1,4 +1,4 @@
-nclude "compiler.h"
+#include "compiler.h"
 
 
 int compile(char instruction[]){
@@ -389,45 +389,3 @@ int fileCompile(char file[], char * fileName){
 
 }
 
-int memoryCompile(char file[]){
-
-	FILE *fileI;
-
-	
-	char instruction[100];
-	
-	int i = 0;
-
-
-	/*________file opening____________*/
-
-
-	fileI = fopen(file, "r");
-
-
-
-	if(fileI == NULL){
-
-		perror("Instructions file error\n");
-		return -1;
-
-	}
-
-
-	/*________ instructions compilation___________*/
-
-	while(fgets(instruction, 60 , fileI) != NULL){
-
-		memoryWrite(i,compile(instruction));
-		i++;
-			
-	}
-
-	/*_________file closing ____________________*/
-
-	fclose(fileI);
-
-
-	return 0;
-
-}

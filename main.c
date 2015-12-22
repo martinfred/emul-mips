@@ -10,7 +10,6 @@ int main(int argc, char *argv[]){
 	char file[100];
 	
 	int inst;
-	int rd, rs, rt;
 
 	int i;
 
@@ -22,18 +21,12 @@ int main(int argc, char *argv[]){
 
 		/*___________file comilation__________*/
 
-		memoryCompile(argv[1]);
 		fileCompile(argv[1],file);
  	
-		
-
 
 	} else { /*__________mode live__________*/
 
-		printf("Welcome in live mode !\n");
-		printf("Here, you can use only few instructions :\n");
-		printf("ADD, ADDI, MULT, SUB, DIV, ...\n");		
-
+		printf("Welcome in live mode ...\n");
 	
 		while(1){
 
