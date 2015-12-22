@@ -21,6 +21,8 @@ int main(int argc, char *argv[]){
 
 		/*___________file comilation__________*/
 
+		printf("File mode ...");
+
 		fileCompile(argv[1],file);
  	
 
