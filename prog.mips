@@ -1,3 +1,10 @@
+#Début de mon programme de test
+
+ADD $2, $3, $4    #permière instruction
+ADDI $2, $3, 200
+
 ADDI $16, $0, 42
 ADDI $17, $0, 200
 AND $18, $17, $18
+BEQ $11, 42
+BLEZ $13, 54

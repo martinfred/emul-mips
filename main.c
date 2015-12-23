@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
 
 		/*___________file comilation__________*/
 
-		printf("File mode ...");
+		printf("File mode ...\n");
 
 		fileCompile(argv[1],file);
  	
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]){
 
 			while('\0' != instruction[i]){		
 
-				if(97 <= instruction[i] && 122 >= instruction[i]){
+				if('a' <= instruction[i] && 'z' >= instruction[i]){
 		
 					instruction[i] -= 32;
 
@@ -52,15 +52,25 @@ int main(int argc, char *argv[]){
 				i++;
 			}
 
-			printf("INSTRUCTION : %s",instruction);
+			/* end of live mode if 'exit' */
 			
 	  		if(strcmp(instruction,"EXIT\n") == 0) break; /*fgets add  \n at the end */
 
+
 			inst = compile(instruction);
-
-			printf("Compile : %X\n",inst);
-
 			
+			/* if compilation error */
+
+			if(-1 == inst){
+
+				printf("error\n");
+
+			} else {
+
+				printf("Compile : %X\n",inst);
+
+			}
+	
 		}
 
 

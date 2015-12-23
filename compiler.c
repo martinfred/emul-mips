@@ -326,6 +326,7 @@ int fileCompile(char file[], char * fileName){
 	char instruction[100];
 	char name[100];
 	
+	int inst;
 	int i = 0;
 
 	/*________compile file name_________*/
@@ -371,11 +372,16 @@ int fileCompile(char file[], char * fileName){
 
 	/*________ instructions compilation___________*/
 	
-	i = 0;
-
 	while(fgets(instruction, 60 , fileI) != NULL){
 
-		fprintf(fileC,"%d\n",compile(instruction));
+		inst = compile(instruction);
+
+		if(-1 != inst){
+
+			fprintf(fileC,"%d #%X\n",inst,inst);
+/*			fprintf(fileC,"%d\n",inst);*/
+
+		}
 			
 	}
 
