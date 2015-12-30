@@ -14,7 +14,10 @@ int compile(char instruction[]){
 
 	int res = -1;	
 
-	
+	r[0] = 0;
+	r[1] = 0;
+	r[2] = 0;
+	arg = 0;	
 
 	/*____________________remove space and comments____________________*/
 
@@ -36,6 +39,8 @@ int compile(char instruction[]){
 	
 	inst[j] = '\0';
 
+	printf("%s\n",inst); /* <[°_°]> DEBUG */
+
 	/*____________________operation____________________*/
 	
 	i = 0;
@@ -48,17 +53,25 @@ int compile(char instruction[]){
 
 		i++;
 
+		printf("%s\n",inst);
+
 	}
 
 	operation[i+1]= '\0';
 
+	printf("op   : %s\n",operation);
 	
+
 	/*___________________arguments__________________*/
 	
 	j = 0;
 
+	printf("%s\n",inst);
+	printf("%d %d\n",strlen(operation),strlen(inst));
+
 	for(i = strlen(operation); i < strlen(inst); i++){
-	
+
+		printf("%c\n",inst[i]);	
 		
 		if('$' == inst[i]){
 
@@ -103,6 +116,13 @@ int compile(char instruction[]){
 		
 				
 	}
+
+	
+	printf("r[0] : %d\n",r[0]);
+	printf("r[1] : %d\n",r[1]);
+	printf("r[2] : %d\n",r[2]);
+	printf("arg  : %d\n",arg);
+
 
 	/*____________________opCode____________________*/
 
