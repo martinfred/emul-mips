@@ -7,6 +7,7 @@
 #include "controlUnit.h"
 #include "alu.h"
 #include "memory.h"
+#include "save.h"
 
 int main(int argc, char *argv[]){
 

@@ -10,6 +10,7 @@ int run(int adresse);
 /* This function execute one instruction */
 int exe(int instruction);
 
-
+/* frame pointer increment */
+int fpInc(void);
 
 

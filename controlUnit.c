@@ -70,17 +70,22 @@ int exe(int instruction){
 
 	rs = registersRead(irs);
 	rt = registersRead(irt);
-
+	rd = 0;
 
 	/*_______Execute_________*/
 	
 	switch(opCode){
+
 		case 32 :
 			ADD(&rd, rs, rt);
+			registersWrite(ird,rd);
+			fpInc();
 			break;
 
 		case 8 :
 			ADDI(&rd, rs, arg);
+			registersWrite(ird,rd);
+			fpInc();
 			break;
 
 /*
@@ -201,3 +206,17 @@ int DIV(int *HI, int *LO, int rs, int rt);
 	return 0;
 }
 
+
+int fpInc(void){
+
+	int fp;
+
+	fp = registersRead(nti("fp"));
+
+	fp++;
+
+	registersWrite(nti("fp"),fp);
+
+	return fp;
+
+}
