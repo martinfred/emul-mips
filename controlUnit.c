@@ -80,6 +80,7 @@ int exe(int instruction){
 			ADDI(&rd, rs, arg);
 			break;
 
+/*
 		case 36 :
 			AND(&rd, rs, rt);
 			break;
@@ -112,9 +113,9 @@ int exe(int instruction){
 			JAL(arg);
 			break;
 
-		/*case 8 :
+		case 8 :
 			JR(rs);
-			break;*/
+			break;
 
 		case 15 :
 			LUI(&rt, arg);
@@ -140,9 +141,9 @@ int exe(int instruction){
 			OR(&rd, rs, rt);
 			break;
 
-		/*case 2 :
+		case 2 :
 			ROTR(&rt, rs, arg);
-			break;*/
+			break;
 
 		case 0 : 
 			SLL(&rd, rs, arg);
@@ -152,9 +153,9 @@ int exe(int instruction){
 			SLT(&rd, rs, rt);
 			break;
 
-		/*case 2 : 
+		case 2 : 
 			SRL(&rd, rs, arg);
-			break;*/
+			break;
 
 		case 34 : 
 			SUB(&rd, rs, rt);
@@ -164,13 +165,15 @@ int exe(int instruction){
 			SW(&rs, arg, rt);
 			break;
 
-		/*case 12 : 
+		case 12 : 
 			SYSCALL();
-			break;*/
+			break;
 
 		case 38 : 
-			XOR(&rd, rs, rt);
+			 XOR(&rd, rs, rt) 
 			break;
+
+		*/
 
 		default :
 			printf("ERROR instruction\n");

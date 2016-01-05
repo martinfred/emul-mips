@@ -113,7 +113,7 @@ int nti(char name[]){
 
 	if(strcmp("t4",name) == 0){
 
-		i = 12
+		i = 12;
 
 	}
 
@@ -143,7 +143,7 @@ int nti(char name[]){
 
 	if(strcmp("s1",name) == 0){
 
-		i = 17
+		i = 17;
 
 	}
 
@@ -203,7 +203,7 @@ int nti(char name[]){
 
 	if(strcmp("k1",name) == 0){
 
-		i = 27
+		i = 27;
 
 	}
 
