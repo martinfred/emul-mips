@@ -1,3 +1,4 @@
+#include <string.h>
 
 /* registers initialisation */
 int registersInit(void);

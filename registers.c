@@ -4,7 +4,13 @@ int registers[34];
 
 int registersInit(void){
 
-	registers[0] = 0; /* $zero */
+	int i = 0;
+
+	for(i = 0; i < 34; i++){
+
+		registers[i] = 0;
+
+	}
 
 	return 0;
 
@@ -244,8 +250,7 @@ int nti(char name[]){
 	}
 
 
-
-	return -1;
+	return i;
 }
 
 

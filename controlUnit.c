@@ -2,6 +2,12 @@
 
 int run(int adresse){
 
+	if(-1 == registersInit()){
+	
+		perror("registers init error\n");
+		return -1;
+
+	}
 
 	if(-1 == registersWrite(nti("fp"),adresse)){
 
@@ -34,12 +40,14 @@ int run(int adresse){
 int exe(int instruction){
 
 	int opCode;
-	int type = -1;
-
+	
 	int rs, rt, rd, arg, hi, lo;
 	int irs, irt, ird, ihi, ilo;
 	
-	
+	irs = 0;
+	irt = 0;
+	ird = 0;
+
 	/*________Instruction Decode________*/
 	/*________Register Fetch________*/
 
@@ -47,13 +55,14 @@ int exe(int instruction){
 	{ 
 		opCode = instruction & 63;	/*masque*/
 		/*RTYPE*/
-		irs = (31 << 21) & instruction;
-		irt = (31 << 16) & instruction;
-		ird = (31 << 11) & instruction;
+		irs = ((31 << 21) & instruction) >> 21;
+		irt = ((31 << 16) & instruction) >> 16;
+		ird = ((31 << 11) & instruction) >> 11;
 		arg = 0xFFFF & instruction;
 
+
 	}else{
-		opCode = instruction & (63 << 26);	/*masque*/
+		opCode = (instruction & (63 << 26)) >> 26;	/*masque*/
 
 		if ((opCode == 2) | (opCode == 3))
 		{
@@ -61,8 +70,8 @@ int exe(int instruction){
 			arg = 0x3FFFFFF & instruction;
 		}else{
 			/*ITYPE*/
-			irs = (31 << 21) & instruction;
-			irt = (31 << 16) & instruction;
+			irs = ((31 << 21) & instruction) >> 21;
+			irt = ((31 << 16) & instruction) >> 16;
 		}	arg = 0xFFFF & instruction;
 	}
 
@@ -70,7 +79,7 @@ int exe(int instruction){
 
 	rs = registersRead(irs);
 	rt = registersRead(irt);
-	rd = 0;
+	rd = registersRead(ird);
 
 	/*_______Execute_________*/
 	
@@ -83,8 +92,11 @@ int exe(int instruction){
 			break;
 
 		case 8 :
-			ADDI(&rd, rs, arg);
-			registersWrite(ird,rd);
+
+			printf("ADDI\n");
+
+			ADDI(&rt, rs, arg);
+			registersWrite(irt,rt);
 			fpInc();
 			break;
 
@@ -184,8 +196,8 @@ int exe(int instruction){
 		*/
 
 		default :
-			printf("ERROR instruction\n");
-			break;
+			perror("instruction error");
+			return -1;
 	}
 
 	/*
@@ -198,11 +210,7 @@ int DIV(int *HI, int *LO, int rs, int rt);
 
 	*/
 
-	/*_________Memory Acess________*/
 	
-
-	registersWrite(ird,rd);
-
 	return 0;
 }
 

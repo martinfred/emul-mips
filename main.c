@@ -16,6 +16,24 @@ int main(int argc, char *argv[]){
 
 	int inst;	
 
+
+/*
+
+	while(1){
+
+		registersWrite(1,42);
+
+		printf("1 = %d\n",registersRead(1));
+
+		return 0;
+
+	}
+
+
+*/
+
+
+
 	
 	printf("\n\n\n         <[°_°]> EMUL MIPS <[°_°]>         \n\n\n");
 
@@ -32,6 +50,7 @@ int main(int argc, char *argv[]){
 
 		run(0);
 
+		saveRegisters();
 
 	} else { /*__________mode live__________*/
 
