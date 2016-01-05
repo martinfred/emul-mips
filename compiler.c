@@ -14,6 +14,11 @@ int compile(char instruction[]){
 
 	int res = -1;	
 
+
+	r[0] = 0;
+	r[1] = 0;
+	r[2] = 0;
+	arg = 0;
 	
 
 	/*____________________remove space and comments____________________*/
@@ -50,9 +55,6 @@ int compile(char instruction[]){
 
 	}
 
-	operation[i+1]= '\0';
-
-	
 	/*___________________arguments__________________*/
 	
 	j = 0;
@@ -326,6 +328,7 @@ int fileCompile(char file[], char * fileName){
 	char instruction[100];
 	char name[100];
 	
+	int inst;
 	int i = 0;
 
 	/*________compile file name_________*/
@@ -371,12 +374,16 @@ int fileCompile(char file[], char * fileName){
 
 	/*________ instructions compilation___________*/
 	
-	i = 0;
 
 	while(fgets(instruction, 60 , fileI) != NULL){
 
-		fprintf(fileC,"%d\n",compile(instruction));
+		inst = compile(instruction);
+
+		if(-1 != inst){
+
+			fprintf(fileC,"%d\n",inst);
 			
+		}
 	}
 
 	/*_________file closing ____________________*/
@@ -396,6 +403,7 @@ int memoryCompile(char file[]){
 	
 	char instruction[100];
 	
+	int inst;
 	int i = 0;
 
 
@@ -418,8 +426,14 @@ int memoryCompile(char file[]){
 
 	while(fgets(instruction, 60 , fileI) != NULL){
 
-		memoryWrite(i,compile(instruction));
-		i++;
+		inst = compile(instruction);
+
+		if(-1 != inst){
+
+			memoryWrite(i,compile(instruction));
+			i++;
+
+		}
 			
 	}
 

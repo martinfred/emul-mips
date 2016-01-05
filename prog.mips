@@ -1,3 +1,5 @@
+#Programme de test n°1
+
 ADDI $16, $0, 42
 ADDI $17, $0, 200
-AND $18, $17, $18
+ADD $16, $17, $18
