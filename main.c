@@ -12,17 +12,9 @@ int main(int argc, char *argv[]){
 
 	char instruction[100];
 	char file[100];
-	
-	int inst;
-	int rd, rs, rt;
 
-	int i;
+	int inst;	
 
-	rs = 2000000000;
-	rt = 200000000;
-
-
-	printf("encore un test ...");
 	
 	printf("\n\n\n         <[°_°]> EMUL MIPS <[°_°]>         \n\n\n");
 
@@ -37,7 +29,7 @@ int main(int argc, char *argv[]){
 
 		memoryDisplay();
 
-
+		run(0);
 
 
 	} else { /*__________mode live__________*/
@@ -50,8 +42,6 @@ int main(int argc, char *argv[]){
 		while(1){
 
 			
-
-
 			printf("Instruction : ");
 		
 			fgets (instruction, 100, stdin);
@@ -61,7 +51,7 @@ int main(int argc, char *argv[]){
 
 			printf("compile : %X\n",inst);
 
-			run(inst);
+			exe(inst);
 		}
 
 

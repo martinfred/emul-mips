@@ -3,20 +3,23 @@
 int run(int adresse){
 
 
-	while(memoryRead(adresse) != 0){
+	if(-1 == registersWrite(nti("fp"),adresse)){
+
+		perror("first instruction error");
+		return -1;
+
+	}
+
+	while(memoryRead(registersRead(nti("fp"))) != 0){
 		
 		/*________Instruction Fetch________*/			
 
 		if(0 != exe(memoryRead(adresse))){
 			
-			perror("inxtruction execution error !");
+			perror("instruction execution error !");
 			return -1;
 
 		}
-
-		/* PC !!! */
-
-		adresse++;
 
 		/* if(adresse > 4096) */		
 
@@ -65,8 +68,8 @@ int exe(int instruction){
 
 	printf("opCode : %d\n",opCode); /* DEBUG */
 
-	rs = registersRead(rs);
-	rt = registersRead(rt);
+	rs = registersRead(irs);
+	rt = registersRead(irt);
 
 
 	/*_______Execute_________*/
