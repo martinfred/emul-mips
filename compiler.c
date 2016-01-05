@@ -379,7 +379,7 @@ int fileCompile(char file[], char * fileName){
 
 		if(-1 != inst){
 
-			fprintf(fileC,"%d #%X\n",inst,inst);
+			fprintf(fileC,"%d\n",inst);
 /*			fprintf(fileC,"%d\n",inst);*/
 
 		}
