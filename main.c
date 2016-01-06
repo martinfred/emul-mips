@@ -15,22 +15,24 @@ int main(int argc, char *argv[]){
 	char file[100];
 
 	int inst;	
+	int i;
 
-
-/*
+	/*
 
 	while(1){
 
-		registersWrite(1,42);
+		printf("fp : %d\n",registersRead(nti("fp")));
+		
+		fpInc();
 
-		printf("1 = %d\n",registersRead(1));
+		printf("fp : %d\n",registersRead(nti("fp")));
 
 		return 0;
 
 	}
 
 
-*/
+	*/
 
 
 
@@ -46,8 +48,6 @@ int main(int argc, char *argv[]){
  	
 		/* printf("file : %s\n",file); ????? */
 
-		memoryDisplay();
-
 		run(0);
 
 		saveRegisters();
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
 		printf("Welcome in live mode !\n");
 		printf("Here, you can use only few instructions :\n");
 		printf("ADD, ADDI, MULT, SUB, DIV, ...\n");		
-
+		
 	
 		while(1){
 
@@ -65,6 +65,21 @@ int main(int argc, char *argv[]){
 			printf("Instruction : ");
 		
 			fgets (instruction, 100, stdin);
+			
+			i = 0;
+
+			while('\0' != instruction[i]){
+
+				if('a' <= instruction[i] && 'z' >= instruction[i]){
+
+					instruction[i] -= 32;
+
+				}
+
+				i++;
+
+			}
+
 			
 	  		if(strcmp(instruction,"EXIT\n") == 0) break; /*fgets add  \n at the end */
 			inst = compile(instruction);
@@ -74,6 +89,7 @@ int main(int argc, char *argv[]){
 			exe(inst);
 		}
 
+		saveRegisters();
 
 	}
 

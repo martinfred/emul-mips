@@ -60,8 +60,10 @@ int saveRegisters(void){
 	fprintf(registers,"[30] fp : %d\n",registersRead(30));
 	fprintf(registers,"[31] ra : %d\n\n",registersRead(31));
 
-	fprintf(registers,"lo : %d\n",registersRead(32));
-	fprintf(registers,"hi : %d\n",registersRead(33));
+	fprintf(registers,"pc : %d\n\n",registersRead(32));
+
+	fprintf(registers,"lo : %d\n",registersRead(33));
+	fprintf(registers,"hi : %d\n",registersRead(34));
 
 	fclose(registers);
 

@@ -1,12 +1,12 @@
 #include "registers.h"
 
-int registers[34];
+int registers[35];
 
 int registersInit(void){
 
 	int i = 0;
 
-	for(i = 0; i < 34; i++){
+	for(i = 0; i < 35; i++){
 
 		registers[i] = 0;
 
@@ -21,7 +21,7 @@ int registersWrite(int r, int n){
 
 	int i = -1;
 
-	if(r > 0 && r <= 33){	
+	if(r > 0 && r <= 35){	
 
 		registers[r] = n;
 
@@ -237,15 +237,21 @@ int nti(char name[]){
 
 	}
 
-	if(strcmp("lo",name) == 0){
+	if(strcmp("pc",name) == 0){
 
 		i = 32;
 
 	}
 
-	if(strcmp("hi",name) == 0){
+	if(strcmp("lo",name) == 0){
 
 		i = 33;
+
+	}
+
+	if(strcmp("hi",name) == 0){
+
+		i = 34;
 
 	}
 

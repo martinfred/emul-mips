@@ -11,6 +11,6 @@ int run(int adresse);
 int exe(int instruction);
 
 /* frame pointer increment */
-int fpInc(void);
+int pcInc(void);
 
 

@@ -9,20 +9,23 @@ int run(int adresse){
 
 	}
 
-	if(-1 == registersWrite(nti("fp"),adresse)){
+	if(-1 == registersWrite(nti("pc"),adresse)){
 
 		perror("first instruction error");
 		return -1;
 
 	}
 
-	while(memoryRead(registersRead(nti("fp"))) != 0){
+	while(memoryRead(registersRead(nti("pc"))) != 0){
 		
-		/*________Instruction Fetch________*/			
+		printf("pc : %d\n",registersRead(nti("pc")));
 
-		if(0 != exe(memoryRead(adresse))){
+		/*________Instruction execution________*/			
+
+
+		if(0 != exe(memoryRead(nti("pc")))){
 			
-			perror("instruction execution error !");
+			perror("instruction execution error");
 			return -1;
 
 		}
@@ -41,8 +44,10 @@ int exe(int instruction){
 
 	int opCode;
 	
-	int rs, rt, rd, arg, hi, lo;
-	int irs, irt, ird, ihi, ilo;
+	int rs, rt, rd, arg;
+	int irs, irt, ird;
+
+	printf("\n %d :\n",instruction);
 	
 	irs = 0;
 	irt = 0;
@@ -86,9 +91,11 @@ int exe(int instruction){
 	switch(opCode){
 
 		case 32 :
+			printf("ADD\n");
+			
 			ADD(&rd, rs, rt);
 			registersWrite(ird,rd);
-			fpInc();
+			pcInc();
 			break;
 
 		case 8 :
@@ -97,7 +104,7 @@ int exe(int instruction){
 
 			ADDI(&rt, rs, arg);
 			registersWrite(irt,rt);
-			fpInc();
+			pcInc();
 			break;
 
 /*
@@ -215,16 +222,16 @@ int DIV(int *HI, int *LO, int rs, int rt);
 }
 
 
-int fpInc(void){
+int pcInc(void){
 
-	int fp;
+	int pc;
 
-	fp = registersRead(nti("fp"));
+	pc = registersRead(nti("pc"));
 
-	fp++;
+	pc++;
 
-	registersWrite(nti("fp"),fp);
+	registersWrite(nti("pc"),pc);
 
-	return fp;
+	return pc;
 
 }
