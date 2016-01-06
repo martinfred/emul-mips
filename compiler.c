@@ -61,29 +61,158 @@ int compile(char instruction[]){
 
 	for(i = strlen(operation); i < strlen(inst); i++){
 	
-		
 		if('$' == inst[i]){
 
-			if('0' <= inst[i+2] && '9' >= inst[i+2]){
+			if((inst[i+1] >= '0') && (inst[i+1] <= '9')){
+				if((inst[i+2] >= '0') && (inst[i+2] <= '9')){
+
+					r[j] = (inst[i+1] - '0')*10 + inst[i+2] - '0';
+					i += 2;
+
+				}else{
+
+					r[j] = inst[i+1] - '0';
+					i ++;
+
+				}
+
+			}else{
+				if(inst[i+1] == 'f'){
+					if(inst[i+2] == 'p'){
+	
+					r[j] = 30;
+					i += 2;
+
+					}else{
+						printf("The register f%c not exist\n", inst[i+2]);
+						i += 2;
+					}
+
+				}
+
+				if(inst[i+1] == 'z'){
+					if((inst[i+2] == 'e') && (inst[i+3] == 'r') && (inst[i+4] == 'o')){
+
+						r[j] = 0;
+						i += 4;
+
+					}else{
+						printf("The register z%c%c%c not exist\n", inst[i+2], inst[i+3], inst[i+4]);
+						i += 2;
+					}
+				}
+
+				if(inst[i+1] == 'r'){
+					if(inst[i+2] == 'a'){
+
+						r[j] = 31;
+						i += 2;
+
+					}else{
+						printf("The register r%c not exist\n", inst[i+2]);
+						i += 2;
+					}
+				}
+
+				if(inst[i+1] == 'g'){
+					if(inst[i+2] == 'p'){
+
+						r[j] = 28;
+						i += 2;
 				
-				r[j] = (inst[i+1] - '0')*10 + inst[i+2] - '0';
-				i += 2;
+					}else{
+						printf("The register g%c not exist\n", inst[i+2]);
+						i += 2;
+					}
+				}
 
-			} else {
+				if(inst[i+1] == 's'){
+					if(inst[i+2] == 'p'){
 
-				r[j] = inst[i+1] - '0';
-				i++;
-		
+						r[j] = 29;
+						i += 2;
+
+					}else{
+						if((inst[i+2] >= '0') && (inst[i+2] <= '7')){
+
+							r[j] = inst[i+2] - '0' + 16;
+							i += 2;
+
+						}else{
+							printf("The register s%c not exist\n", inst[i+2]);
+							i += 2;
+						}	
+					}
+				}
+
+				if(inst[i+1] == 't'){
+					if((inst[i+2] >= '0') && (inst[i+2] <= '7')){
+
+						r[j] = inst[i+2] - '0' + 8;
+						i += 2;				
+
+					}else{
+						if((inst[i+2] == '8') || (inst[i+2] == '9')){
+
+							r[j] = inst[i+2] - '0' + 48;
+							i += 2;	
+
+						}else{
+							printf("The register t%c not exist\n", inst[i+2]);
+							i += 2;
+						}
+					}
+				}
+
+				if(inst[i+1] == 'v'){
+					if((inst[i+2] == '0') || (inst[i+2] == '1')){	
+
+						r[j] = inst[i+2] - '0' + 2;
+						i += 2;
+
+					}else{
+						printf("The register v%c not exist\n", inst[i+2]);
+						i += 2;
+					}						
+				}
+
+				if(inst[i+1] == 'a'){
+					if(inst[i+2] == 't'){
+
+						r[j] = 1;
+						i += 2;	
+
+					}else{
+						if((inst[i+2] >= '0') && (inst[i+2] <= '3')){
+
+							r[j] = inst[i+2] - '0' + 4;
+							i += 2;	
+
+						}else{
+							printf("The register a%c not exist\n", inst[i+2]);
+							i += 2;
+						}
+					}
+				}
+
+				if(inst[i+1] == 'k'){
+					if((inst[i+2] == '0') || (inst[i+2] == '1')){
+
+						r[j] = inst[i+2] - '0' + 26;
+						i += 2;				
+
+					}else{
+						printf("The register k%c not exist\n", inst[i+2]);
+						i += 2;
+					}
+				}			
 			}
-			
-			j++;		
+			j++;	
 
-		} else {
+		}else{
 	
 			if('0' <= inst[i] && '9' >= inst[i]){
-		
-						
-	
+			
 				j = i;
 				n = 1;
 
@@ -98,12 +227,8 @@ int compile(char instruction[]){
 
 				i += n;
 
-						
-
 			}  
-		}
-		
-				
+		}				
 	}
 
 	/*____________________opCode____________________*/
