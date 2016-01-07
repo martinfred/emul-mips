@@ -2,7 +2,31 @@
 
 int saveMemory(void){
 
+	FILE *save;
 
+	int i;
+
+	save = fopen("memory.sav","w");
+
+	if(NULL == save){
+		
+		perror("save error");
+		return -1;
+
+	}
+
+	i = 0;
+
+	while(memoryRead(i) != 0){
+
+		fprintf(save,"[%d] %d\n",i,memoryRead(i));
+
+		i++;
+	}
+
+	fprintf(save,"\n END OF PROGRAM \n");
+
+	fclose(save);
 
 
 	return 0;

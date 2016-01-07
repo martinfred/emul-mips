@@ -51,7 +51,8 @@ int main(int argc, char *argv[]){
 		run(0);
 
 		saveRegisters();
-
+		saveMemory();
+		
 	} else { /*__________mode live__________*/
 
 		printf("Welcome in live mode !\n");
