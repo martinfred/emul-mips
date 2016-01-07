@@ -5,6 +5,7 @@ int compile(char instruction[]){
 
 	char inst[30];
 	char operation[5];
+	char reg[5];
 
 	int opCode = -1;
 	int r[3];
@@ -78,135 +79,168 @@ int compile(char instruction[]){
 
 			}else{
 				if(inst[i+1] == 'f'){
+
 					if(inst[i+2] == 'p'){
-	
-					r[j] = 30;
-					i += 2;
+		
+						r[j] = nti("fp");
+						i += 2;
 
 					}else{
-						printf("The register f%c not exist\n", inst[i+2]);
-						i += 2;
+
+						perror("The register f* not exist");
+						return -1;
+
 					}
 
 				}
 
 				if(inst[i+1] == 'z'){
+
 					if((inst[i+2] == 'e') && (inst[i+3] == 'r') && (inst[i+4] == 'o')){
 
-						r[j] = 0;
+						r[j] = nti("zero");
 						i += 4;
 
 					}else{
-						printf("The register z%c%c%c not exist\n", inst[i+2], inst[i+3], inst[i+4]);
-						i += 2;
+
+						perror("The register z*** not exist");
+						return -1;
+
 					}
+
 				}
 
 				if(inst[i+1] == 'r'){
+
 					if(inst[i+2] == 'a'){
 
-						r[j] = 31;
+						r[j] = nti("ra");
 						i += 2;
 
 					}else{
-						printf("The register r%c not exist\n", inst[i+2]);
-						i += 2;
+
+						perror("The register r* not exist");
+						return -1;
+				
 					}
 				}
 
 				if(inst[i+1] == 'g'){
+				
 					if(inst[i+2] == 'p'){
 
-						r[j] = 28;
+						r[j] = nti("gp");
 						i += 2;
 				
 					}else{
-						printf("The register g%c not exist\n", inst[i+2]);
-						i += 2;
+
+						perror("The register g* not exist");
+						return -1;
+
 					}
 				}
 
 				if(inst[i+1] == 's'){
+
 					if(inst[i+2] == 'p'){
 
-						r[j] = 29;
+						r[j] = nti("sp");
 						i += 2;
 
 					}else{
 						if((inst[i+2] >= '0') && (inst[i+2] <= '7')){
 
-							r[j] = inst[i+2] - '0' + 16;
+											
+							sprintf(reg,"s%c",inst[i+2]);
+							r[j] = nti(reg);
+							
 							i += 2;
 
 						}else{
-							printf("The register s%c not exist\n", inst[i+2]);
-							i += 2;
+
+							perror("The register s* not exist");
+							return -1;
+
 						}	
 					}
 				}
 
 				if(inst[i+1] == 't'){
-					if((inst[i+2] >= '0') && (inst[i+2] <= '7')){
 
-						r[j] = inst[i+2] - '0' + 8;
+					if((inst[i+2] >= '0') && (inst[i+2] <= '9')){
+
+						sprintf(reg,"t%c",inst[i+2]);
+						r[j] = nti(reg);
+						
 						i += 2;				
 
 					}else{
-						if((inst[i+2] == '8') || (inst[i+2] == '9')){
+	
+						perror("The register t* not exist");
+						return -1;
 
-							r[j] = inst[i+2] - '0' + 48;
-							i += 2;	
-
-						}else{
-							printf("The register t%c not exist\n", inst[i+2]);
-							i += 2;
-						}
 					}
 				}
 
 				if(inst[i+1] == 'v'){
+
 					if((inst[i+2] == '0') || (inst[i+2] == '1')){	
 
-						r[j] = inst[i+2] - '0' + 2;
+						sprintf(reg,"v%c",inst[i+2]);
+						r[j] = nti(reg);
+						
 						i += 2;
 
 					}else{
-						printf("The register v%c not exist\n", inst[i+2]);
-						i += 2;
+
+						perror("The register v* not exist");
+						return -1;
+
 					}						
 				}
 
 				if(inst[i+1] == 'a'){
+
 					if(inst[i+2] == 't'){
 
-						r[j] = 1;
+						r[j] = nti("at");
 						i += 2;	
 
 					}else{
 						if((inst[i+2] >= '0') && (inst[i+2] <= '3')){
 
-							r[j] = inst[i+2] - '0' + 4;
+							sprintf(reg,"a%c",inst[i+2]);
+							r[j] = nti(reg);
+						
 							i += 2;	
 
 						}else{
-							printf("The register a%c not exist\n", inst[i+2]);
-							i += 2;
+
+							perror("The register a* not exist");
+							return -1;
+
 						}
 					}
 				}
 
 				if(inst[i+1] == 'k'){
+				
 					if((inst[i+2] == '0') || (inst[i+2] == '1')){
-
-						r[j] = inst[i+2] - '0' + 26;
+						
+						sprintf(reg,"k%c",inst[i+2]);
+						r[j] = nti(reg);
+							
 						i += 2;				
 
 					}else{
-						printf("The register k%c not exist\n", inst[i+2]);
-						i += 2;
+
+						perror("The register k* not exist");
+						return -1;
+
 					}
 				}			
 			}
+
 			j++;	
 
 		}else{
