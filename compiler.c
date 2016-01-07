@@ -78,9 +78,9 @@ int compile(char instruction[]){
 				}
 
 			}else{
-				if(inst[i+1] == 'f'){
+				if(inst[i+1] == 'F'){
 
-					if(inst[i+2] == 'p'){
+					if(inst[i+2] == 'P'){
 		
 						r[j] = nti("fp");
 						i += 2;
@@ -94,9 +94,9 @@ int compile(char instruction[]){
 
 				}
 
-				if(inst[i+1] == 'z'){
+				if(inst[i+1] == 'Z'){
 
-					if((inst[i+2] == 'e') && (inst[i+3] == 'r') && (inst[i+4] == 'o')){
+					if((inst[i+2] == 'E') && (inst[i+3] == 'R') && (inst[i+4] == 'O')){
 
 						r[j] = nti("zero");
 						i += 4;
@@ -110,9 +110,9 @@ int compile(char instruction[]){
 
 				}
 
-				if(inst[i+1] == 'r'){
+				if(inst[i+1] == 'R'){
 
-					if(inst[i+2] == 'a'){
+					if(inst[i+2] == 'A'){
 
 						r[j] = nti("ra");
 						i += 2;
@@ -125,9 +125,9 @@ int compile(char instruction[]){
 					}
 				}
 
-				if(inst[i+1] == 'g'){
+				if(inst[i+1] == 'G'){
 				
-					if(inst[i+2] == 'p'){
+					if(inst[i+2] == 'P'){
 
 						r[j] = nti("gp");
 						i += 2;
@@ -140,9 +140,9 @@ int compile(char instruction[]){
 					}
 				}
 
-				if(inst[i+1] == 's'){
+				if(inst[i+1] == 'S'){
 
-					if(inst[i+2] == 'p'){
+					if(inst[i+2] == 'P'){
 
 						r[j] = nti("sp");
 						i += 2;
@@ -165,7 +165,7 @@ int compile(char instruction[]){
 					}
 				}
 
-				if(inst[i+1] == 't'){
+				if(inst[i+1] == 'T'){
 
 					if((inst[i+2] >= '0') && (inst[i+2] <= '9')){
 
@@ -182,7 +182,7 @@ int compile(char instruction[]){
 					}
 				}
 
-				if(inst[i+1] == 'v'){
+				if(inst[i+1] == 'V'){
 
 					if((inst[i+2] == '0') || (inst[i+2] == '1')){	
 
@@ -199,9 +199,9 @@ int compile(char instruction[]){
 					}						
 				}
 
-				if(inst[i+1] == 'a'){
+				if(inst[i+1] == 'A'){
 
-					if(inst[i+2] == 't'){
+					if(inst[i+2] == 'T'){
 
 						r[j] = nti("at");
 						i += 2;	
@@ -223,7 +223,7 @@ int compile(char instruction[]){
 					}
 				}
 
-				if(inst[i+1] == 'k'){
+				if(inst[i+1] == 'K'){
 				
 					if((inst[i+2] == '0') || (inst[i+2] == '1')){
 						

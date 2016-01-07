@@ -42,6 +42,26 @@ int registersRead(int r){
 int nti(char name[]){
 
 	int i = -1;
+	int j;
+
+
+	/* all char in lowercase*/
+
+	j = 0;
+
+	while('\0' != name[j]){
+
+		if('A' <= name[j] && 'Z' >= name[j]){
+
+			name[j] += 32;
+
+		}
+
+		j++;
+
+	}
+
+
 
 
 	if(strcmp("zero",name) == 0){
