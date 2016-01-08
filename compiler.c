@@ -267,7 +267,7 @@ int compile(char instruction[]){
 
 	/*____________________opCode____________________*/
 
-	printf("r[0] : %d, r[1] : %d, r[2] : %d, arg : %d\n",r[0],r[1],r[2],arg);
+/*	printf("r[0] : %d, r[1] : %d, r[2] : %d, arg : %d\n",r[0],r[1],r[2],arg); */
 
 
 	if(strcmp(operation,"ADD") == 0) {
@@ -588,7 +588,7 @@ int memoryCompile(char file[]){
 
 	while(fgets(instruction, 60 , fileI) != NULL){
 
-		printf("-> instruction : %s\n",instruction);
+/*		printf("-> instruction : %s\n",instruction);*/
 
 		j = 0;
 		

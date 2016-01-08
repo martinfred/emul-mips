@@ -18,8 +18,9 @@ int run(int adresse){
 
 	while(memoryRead(registersRead(nti("pc"))) != 0){
 		
-		printf("pc : %d\n",registersRead(nti("pc")));
-		printf("instruction : %d\n",memoryRead(registersRead(nti("pc"))));
+/*		printf("pc : %d\n",registersRead(nti("pc")));
+		printf("instruction : %d\n",memoryRead(registersRead(nti("pc")))); */
+
 		/*________Instruction execution________*/			
 
 
@@ -47,7 +48,7 @@ int exe(int instruction){
 	int rs, rt, rd, arg;
 	int irs, irt, ird;
 
-	printf("\n %d :\n",instruction);
+/*	printf("\n %d :\n",instruction); */
 	
 	irs = 0;
 	irt = 0;
@@ -80,7 +81,7 @@ int exe(int instruction){
 		}	arg = 0xFFFF & instruction;
 	}
 
-	printf("opCode : %d\n",opCode); /* DEBUG */
+/*	printf("opCode : %d\n",opCode);  DEBUG */
 
 	rs = registersRead(irs);
 	rt = registersRead(irt);
@@ -91,16 +92,13 @@ int exe(int instruction){
 	switch(opCode){
 
 		case 32 :
-			printf("ADD\n");
-			
+				
 			ADD(&rd, rs, rt);
 			registersWrite(ird,rd);
 			pcInc();
 			break;
 
 		case 8 :
-
-			printf("ADDI\n");
 
 			ADDI(&rt, rs, arg);
 			registersWrite(irt,rt);
