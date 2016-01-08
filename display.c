@@ -54,7 +54,7 @@ int registersDisplay(void){
 	printf("pc : %d\n\n",registersRead(32));
 
 	printf("lo : %d\n",registersRead(33));
-	printf("hi : %d\n",registersRead(34));
+	printf("hi : %d\n\n",registersRead(34));
 
 
 

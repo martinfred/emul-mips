@@ -1,7 +1,8 @@
 #Programme de test n°1
 
-ADDI $s0, $zero, 42
-ADDI $s1, $zero, 200
-ADD $s2, $s1, $s0
+ADDI $v0, $zero, 42
+ADDI $v1, $zero, 200
+ADD $v2, $v0, $v1
+
 
 
