@@ -12,7 +12,6 @@
 int main(int argc, char *argv[]){
 
 	char instruction[100];
-	char file[100];
 
 	int inst;	
 	int i;
@@ -41,12 +40,7 @@ int main(int argc, char *argv[]){
 
 	if(argc == 2){ /*__________mode file__________*/
 
-		/*___________file comilation__________*/
-
 		memoryCompile(argv[1]);
-		fileCompile(argv[1],file);
- 	
-		/* printf("file : %s\n",file); ????? */
 
 		run(0);
 
@@ -83,6 +77,7 @@ int main(int argc, char *argv[]){
 
 			
 	  		if(strcmp(instruction,"EXIT\n") == 0) break; /*fgets add  \n at the end */
+
 			inst = compile(instruction);
 
 			printf("compile : %X\n",inst);
@@ -92,11 +87,10 @@ int main(int argc, char *argv[]){
 			registersDisplay();
 		}
 
-		saveRegisters();
+	saveRegisters();
 
 	}
-
-
+	
 	printf("\n\n         <[°_°]>  THE END  <[°_°]>         \n\n");
 
 	return 0;

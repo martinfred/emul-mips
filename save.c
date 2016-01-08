@@ -24,7 +24,7 @@ int saveMemory(void){
 		i++;
 	}
 
-	fprintf(save,"\n END OF PROGRAM \n");
+	fprintf(save,"\nEND OF PROGRAM \n");
 
 	fclose(save);
 

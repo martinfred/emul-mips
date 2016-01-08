@@ -19,11 +19,11 @@ int run(int adresse){
 	while(memoryRead(registersRead(nti("pc"))) != 0){
 		
 		printf("pc : %d\n",registersRead(nti("pc")));
-
+		printf("instruction : %d\n",memoryRead(registersRead(nti("pc"))));
 		/*________Instruction execution________*/			
 
 
-		if(0 != exe(memoryRead(nti("pc")))){
+		if(0 != exe(memoryRead(registersRead(nti("pc"))))){
 			
 			perror("instruction execution error");
 			return -1;

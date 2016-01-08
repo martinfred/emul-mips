@@ -267,6 +267,9 @@ int compile(char instruction[]){
 
 	/*____________________opCode____________________*/
 
+	printf("r[0] : %d, r[1] : %d, r[2] : %d, arg : %d\n",r[0],r[1],r[2],arg);
+
+
 	if(strcmp(operation,"ADD") == 0) {
 
 		opCode = 32;
@@ -563,13 +566,13 @@ int memoryCompile(char file[]){
 	char instruction[100];
 	
 	int inst;
-	int i = 0;
+	int j,i = 0;
 
 
 	/*________file opening____________*/
 
 
-	fileI = fopen(file, "r");
+	fileI = fopen(file,"r");
 
 
 
@@ -585,11 +588,27 @@ int memoryCompile(char file[]){
 
 	while(fgets(instruction, 60 , fileI) != NULL){
 
+		printf("-> instruction : %s\n",instruction);
+
+		j = 0;
+		
+		while('\0' != instruction[j]){
+
+			if('a' <= instruction[j] && 'z' >= instruction[j]){
+			
+				instruction[j] -= 32;
+
+			}
+			
+			j++;
+		}
+
+
 		inst = compile(instruction);
 
 		if(-1 != inst){
 
-			memoryWrite(i,compile(instruction));
+			memoryWrite(i,inst);
 			i++;
 
 		}
