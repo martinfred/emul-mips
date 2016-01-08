@@ -12,7 +12,7 @@ int compile(char instruction[]){
 
 	int i, j, n;
 
-	int res = -1;	
+	int res = -1;
 
 	r[0] = 0;
 	r[1] = 0;
@@ -55,33 +55,196 @@ int compile(char instruction[]){
 
 
 	/*___________________arguments__________________*/
-	
+
 	j = 0;
 
 	for(i = strlen(operation); i < strlen(inst); i++){
-
+	
 		if('$' == inst[i]){
 
-			if('0' <= inst[i+2] && '9' >= inst[i+2]){
-				
-				r[j] = (inst[i+1] - '0')*10 + inst[i+2] - '0';
-				i += 2;
+			if((inst[i+1] >= '0') && (inst[i+1] <= '9')){
+				if((inst[i+2] >= '0') && (inst[i+2] <= '9')){
 
-			} else {
+					r[j] = (inst[i+1] - '0')*10 + inst[i+2] - '0';
+					i += 2;
 
-				r[j] = inst[i+1] - '0';
-				i++;
+				}else{
+
+					r[j] = inst[i+1] - '0';
+					i ++;
+
+				}
+
+			}else{
+				if(inst[i+1] == 'F'){
+
+					if(inst[i+2] == 'P'){
 		
-			}
-			
-			j++;		
+						r[j] = nti("fp");
+						i += 2;
 
-		} else {
+					}else{
+
+						perror("The register f* not exist");
+						return -1;
+
+					}
+
+				}
+
+				if(inst[i+1] == 'Z'){
+
+					if((inst[i+2] == 'E') && (inst[i+3] == 'R') && (inst[i+4] == 'O')){
+
+						r[j] = nti("zero");
+						i += 4;
+
+					}else{
+
+						perror("The register z*** not exist");
+						return -1;
+
+					}
+
+				}
+
+				if(inst[i+1] == 'R'){
+
+					if(inst[i+2] == 'A'){
+
+						r[j] = nti("ra");
+						i += 2;
+
+					}else{
+
+						perror("The register r* not exist");
+						return -1;
+				
+					}
+				}
+
+				if(inst[i+1] == 'G'){
+				
+					if(inst[i+2] == 'P'){
+
+						r[j] = nti("gp");
+						i += 2;
+				
+					}else{
+
+						perror("The register g* not exist");
+						return -1;
+
+					}
+				}
+
+				if(inst[i+1] == 'S'){
+
+					if(inst[i+2] == 'P'){
+
+						r[j] = nti("sp");
+						i += 2;
+
+					}else{
+						if((inst[i+2] >= '0') && (inst[i+2] <= '7')){
+
+											
+							sprintf(reg,"s%c",inst[i+2]);
+							r[j] = nti(reg);
+							
+							i += 2;
+
+						}else{
+
+							perror("The register s* not exist");
+							return -1;
+
+						}	
+					}
+				}
+
+				if(inst[i+1] == 'T'){
+
+					if((inst[i+2] >= '0') && (inst[i+2] <= '9')){
+
+						sprintf(reg,"t%c",inst[i+2]);
+						r[j] = nti(reg);
+						
+						i += 2;				
+
+					}else{
+	
+						perror("The register t* not exist");
+						return -1;
+
+					}
+				}
+
+				if(inst[i+1] == 'V'){
+
+					if((inst[i+2] == '0') || (inst[i+2] == '1')){	
+
+						sprintf(reg,"v%c",inst[i+2]);
+						r[j] = nti(reg);
+						
+						i += 2;
+
+					}else{
+
+						perror("The register v* not exist");
+						return -1;
+
+					}						
+				}
+
+				if(inst[i+1] == 'A'){
+
+					if(inst[i+2] == 'T'){
+
+						r[j] = nti("at");
+						i += 2;	
+
+					}else{
+						if((inst[i+2] >= '0') && (inst[i+2] <= '3')){
+
+							sprintf(reg,"a%c",inst[i+2]);
+							r[j] = nti(reg);
+						
+							i += 2;	
+
+						}else{
+
+							perror("The register a* not exist");
+							return -1;
+
+						}
+					}
+				}
+
+				if(inst[i+1] == 'K'){
+				
+					if((inst[i+2] == '0') || (inst[i+2] == '1')){
+						
+						sprintf(reg,"k%c",inst[i+2]);
+						r[j] = nti(reg);
+							
+						i += 2;				
+
+					}else{
+
+						perror("The register k* not exist");
+						return -1;
+
+					}
+				}			
+			}
+
+			j++;	
+
+		}else{
 	
 			if('0' <= inst[i] && '9' >= inst[i]){
-		
-						
-	
+			
 				j = i;
 				n = 1;
 
@@ -96,15 +259,10 @@ int compile(char instruction[]){
 
 				i += n;
 
-						
-
 			}  
-		}
-		
-				
-	}
+		}				
+	}	
 
-	
 	/*____________________opCode____________________*/
 
 	if(strcmp(operation,"ADD") == 0) {

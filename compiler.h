@@ -3,3 +3,4 @@
 
 int compile(char instruction[]);
 int fileCompile(char file[], char * fileName);
+int nti(char name[]);
