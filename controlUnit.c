@@ -3,6 +3,9 @@
 
 int run(int adresse, int mode){
 
+	char key;
+
+
 	if(-1 == registersInit()){
 	
 		perror("registers init error\n");
@@ -30,8 +33,6 @@ int run(int adresse, int mode){
 				return -1;
 			}
 
-		/* if(adresse > 4096) */		
-
 		}
 
 		return 0;
@@ -40,7 +41,20 @@ int run(int adresse, int mode){
 
 		/* step by step mode */
 
+		printf("Welocome in Step by Step mode !\n");
 		
+		printf("press enter to continue\n");
+
+		do{
+
+			key = getchar();
+
+		}while(10 != key);
+
+			
+
+
+			
 
 		return 0;
 	}
@@ -96,7 +110,12 @@ int exe(int instruction){
 	
 	switch(opCode){
 
-		case 32 :
+		case 32 :  /* ADD */
+			
+			if(1 == mode){
+				printf("ADD $%d, $%d, %d\n",ird,irs,irt);
+			}
+
 			ADD(&rd, rs, rt);
 			registersWrite(ird,rd);
 			pcInc();
