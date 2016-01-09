@@ -1,6 +1,6 @@
 #include "save.h"
 
-int saveMemory(void){
+int saveMemory(int nb){
 
 	FILE *save;
 
@@ -32,7 +32,7 @@ int saveMemory(void){
 	return 0;
 }
 
-int saveRegisters(void){
+int saveRegisters(int nb){
 
 	FILE *registers;
 	

@@ -4,5 +4,7 @@ ADDI $s0, $zero, 42
 ADDI $s1, $zero, 200
 ADD $s2, $s0, $s1
 
+ADDI $s3, $zero, 2
+MULT $s4, $s2, $s3
 
 

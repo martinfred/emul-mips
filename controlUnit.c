@@ -1,7 +1,7 @@
 #include "controlUnit.h"
 #include <math.h>
 
-int run(int adresse){
+int run(int adresse, int mode){
 
 	if(-1 == registersInit()){
 	
@@ -17,25 +17,33 @@ int run(int adresse){
 
 	}
 
-	while(memoryRead(registersRead(nti("pc"))) != 0){
+	if(0 == mode){
+
+		while(memoryRead(registersRead(nti("pc"))) != 0){
 		
-		printf("pc : %d\n",registersRead(nti("pc")));
 
 		/*________Instruction execution________*/			
-
-
-		if(0 != exe(memoryRead(nti("pc")))){
+	
+			if(0 != exe(memoryRead(registersRead(nti("pc"))))){
 			
-			perror("instruction execution error");
-			return -1;
-
-		}
+				perror("instruction execution error");
+				return -1;
+			}
 
 		/* if(adresse > 4096) */		
 
-	}
+		}
 
-	return 0;
+		return 0;
+
+	} else {
+
+		/* step by step mode */
+
+		
+
+		return 0;
+	}
 
 }
 
@@ -48,8 +56,6 @@ int exe(int instruction){
 	int rs, rt, rd, arg;
 	int irs, irt, ird;
 	int hi, lo;
-
-	printf("\n %d :\n",instruction);
 	
 	irs = 0;
 	irt = 0;
@@ -82,8 +88,6 @@ int exe(int instruction){
 		}	arg = 0xFFFF & instruction;
 	}
 
-	printf("opCode : %d\n",opCode); /* DEBUG */
-
 	rs = registersRead(irs);
 	rt = registersRead(irt);
 	rd = registersRead(ird);
@@ -93,17 +97,12 @@ int exe(int instruction){
 	switch(opCode){
 
 		case 32 :
-			printf("ADD\n");
-			
 			ADD(&rd, rs, rt);
 			registersWrite(ird,rd);
 			pcInc();
 			break;
 
 		case 8 :
-
-			printf("ADDI\n");
-
 			ADDI(&rt, rs, arg);
 			registersWrite(irt,rt);
 			pcInc();
@@ -112,6 +111,8 @@ int exe(int instruction){
 
 		case 36 :
 			AND(&rd, rs, rt);
+			registersWrite(ird,rd),
+			pcInc();
 			break;
 
 /*		case 4 :
@@ -132,6 +133,9 @@ int exe(int instruction){
 
 */		case 26 :
 			DIV(&hi, &lo, rs, rt);
+			registersWrite(nti("hi"),hi);
+			registersWrite(nti("lo"),lo);
+			pcInc();
 			break;
 
 /*		case 2 :
@@ -164,8 +168,11 @@ int exe(int instruction){
 
 */		case 24 :
 			MULT(&hi, &lo, rs, rt);
+			registersWrite(nti("hi"),hi);
+			registersWrite(nti("lo"),lo);
+			pcInc();
 			break;
-
+		
 /*		case 37 :
 			OR(&rd, rs, rt);
 			break;
@@ -188,6 +195,8 @@ int exe(int instruction){
 
 */		case 34 : 
 			SUB(&rd, rs, rt);
+			registersWrite(ird,rd);
+			pcInc();
 			break;
 
 /*		case 43 : 

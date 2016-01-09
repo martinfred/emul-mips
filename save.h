@@ -3,8 +3,8 @@
 #include "memory.h"
 #include "registers.h"
 
-int saveMemory(void);
-int saveRegisters(void);
+int saveMemory(int nb);
+int saveRegisters(int nb);
 
 
 

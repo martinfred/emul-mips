@@ -6,7 +6,7 @@
 #include "memory.h"
 
 /* This function manage the instruction of a program*/
-int run(int adresse);
+int run(int adresse, int mode);
 
 /* This function execute one instruction */
 int exe(int instruction);

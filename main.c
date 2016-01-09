@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
 
 	int inst;	
 	int i;
-
+	int mode = 0; /* 0 : one shot, 1 : step by step */
 	/*
 
 	while(1){
@@ -38,14 +38,32 @@ int main(int argc, char *argv[]){
 	
 	printf("\n\n\n         <[°_°]> EMUL MIPS <[°_°]>         \n\n\n");
 
-	if(argc == 2){ /*__________mode file__________*/
+	if(argc != 1){ /*__________mode file__________*/
 
+		if(argc > 2){
+
+			if(0 == strcmp(argv[2],"-pas")){
+				
+				printf("Step by step mode\n");
+				mode = 1;
+
+			} else {
+
+				printf("Sorry, \"%s\" is not an available option.\n",argv[2]);
+		
+			}
+
+		}
+			
+
+				
 		memoryCompile(argv[1]);
+		
+		run(0,mode);
+	
+		saveRegisters(0);
+		saveMemory(0);
 
-		run(0);
-
-		saveRegisters();
-		saveMemory();
 		
 	} else { /*__________mode live__________*/
 
@@ -87,7 +105,7 @@ int main(int argc, char *argv[]){
 			registersDisplay();
 		}
 
-	saveRegisters();
+	saveRegisters(0);
 
 	}
 	
