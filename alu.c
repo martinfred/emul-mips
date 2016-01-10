@@ -2,16 +2,15 @@
 
 int ADD(int *rd, int rs, int rt){
 
-	
 	if((rs > 0 && rt > INT_MAX - rs) || (rs < 0 && rt < INT_MIN - rs)){
 
-		/* overflow */
 		perror("Overflow");
 		return -1;
 
 	} else {
 
 		*rd = rs + rt;
+
 		return 0;
 
 	}
@@ -22,13 +21,13 @@ int ADDI(int *rd, int rs, int i){
 
 	if((rs > 0 && i > INT_MAX - rs) || (rs < 0 && i < INT_MIN - rs)){
 
-		/* overflow */
 		perror("Overflow");
 		return -1;
 
 	} else {
 
 		*rd = rs + i;
+
 		return 0;
 
 	}
@@ -39,13 +38,15 @@ int SUB(int *rd, int rs, int rt){
 
 	if ((rs > 0 && rt < rs - INT_MAX) || (rs < 0 && rt > rs - INT_MIN)){
 		
-		/* overflow */
 		perror("Overflow");
 		return -1;
+
 	}else{
 	
 		*rd = rs - rt;
+	
 		return 0;
+
 	}
 }
 
@@ -89,4 +90,5 @@ int DIV(int rs, int rt){
 	}
 	
 	return 0;
+
 }
