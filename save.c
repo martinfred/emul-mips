@@ -4,9 +4,20 @@ int saveMemory(int nb){
 
 	FILE *save;
 
+	char name[40];
 	int i;
 
-	save = fopen("memory.sav","w");
+	if(0 > nb){
+
+		sprintf(name,"memory.sav");
+	
+	} else {
+
+		sprintf(name,"memory_%d.sav",nb);
+
+	}
+
+	save = fopen(name,"w");
 
 	if(NULL == save){
 		

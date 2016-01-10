@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
 	int inst;	
 	int i;
 	int mode = 0; /* 0 : one shot, 1 : step by step */
-
+	int nbsave = 0;
 /*
 	while(1){
 
@@ -98,9 +98,11 @@ int main(int argc, char *argv[]){
 			exe(inst);
 
 			registersDisplay();
+
+			saveMemory(nbsave);
+			nbsave++;
 		}
 
-	saveRegisters(0);
 
 	}
 	
