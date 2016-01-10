@@ -330,7 +330,7 @@ int compile(char instruction[]){
 
 		opCode = 26;
 
-		res = (r[1] << 21) | (r[2] << 16) | opCode;
+		res = (r[0] << 21) | (r[1] << 16) | opCode;
 	
 	}
 

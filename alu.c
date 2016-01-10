@@ -73,18 +73,20 @@ int MULT(int rs, int rt){
 
 int DIV(int rs, int rt){
 
-	long res;
 	int hi, lo;
 
-	hi = 0;
-	lo = 0,
+	if(0 != rt){
+
+		hi = 0;
+		lo = 0,
 	
-	res = rs / rt;
-	hi = (res & 0xFFFF0000) >> 16;
-	lo = (res & 0x0000FFFF);
+		hi = rs % rt;
+		lo = rs / rt;
 
-	registersWrite(nti("hi"),hi);
-	registersWrite(nti("lo"),lo);
+		registersWrite(nti("hi"),hi);
+		registersWrite(nti("lo"),lo);
 
+	}
+	
 	return 0;
 }

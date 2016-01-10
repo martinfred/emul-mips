@@ -17,19 +17,15 @@ int main(int argc, char *argv[]){
 	int i;
 	int mode = 0; /* 0 : one shot, 1 : step by step */
 
-	/*
+/*
 	while(1){
 
-		printf("hi : %d\n",registersRead(nti("hi")));
-		
-		registersWrite(nti("hi"),18);
-
-		printf("hi : %d\n",registersRead(nti("hi")));
+		printf("test : %d\n", 3/2  );
 
 		return 0;
 
 	}
-	*/
+*/
 
 
 
