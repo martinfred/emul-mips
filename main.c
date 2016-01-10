@@ -16,22 +16,21 @@ int main(int argc, char *argv[]){
 	int inst;	
 	int i;
 	int mode = 0; /* 0 : one shot, 1 : step by step */
-	/*
 
+	/*
 	while(1){
 
-		printf("fp : %d\n",registersRead(nti("fp")));
+		printf("hi : %d\n",registersRead(nti("hi")));
 		
-		fpInc();
+		registersWrite(nti("hi"),18);
 
-		printf("fp : %d\n",registersRead(nti("fp")));
+		printf("hi : %d\n",registersRead(nti("hi")));
 
 		return 0;
 
 	}
-
-
 	*/
+
 
 
 

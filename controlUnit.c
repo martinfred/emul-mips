@@ -69,11 +69,15 @@ int exe(int instruction){
 	
 	int rs, rt, rd, arg;
 	int irs, irt, ird;
-	int hi, lo;
 	
 	irs = 0;
 	irt = 0;
 	ird = 0;
+
+	rs = 0;
+	rt = 0;
+	rd = 0;
+	arg = 0;
 
 	/*________Instruction Decode________*/
 	/*________Register Fetch________*/
@@ -111,17 +115,14 @@ int exe(int instruction){
 	switch(opCode){
 
 		case 32 :  /* ADD */
-			
-			if(1 == mode){
-				printf("ADD $%d, $%d, %d\n",ird,irs,irt);
-			}
-
+	
 			ADD(&rd, rs, rt);
 			registersWrite(ird,rd);
 			pcInc();
 			break;
 
 		case 8 :
+
 			ADDI(&rt, rs, arg);
 			registersWrite(irt,rt);
 			pcInc();
@@ -129,6 +130,7 @@ int exe(int instruction){
 
 
 		case 36 :
+
 			AND(&rd, rs, rt);
 			registersWrite(ird,rd),
 			pcInc();
@@ -151,9 +153,8 @@ int exe(int instruction){
 			break;
 
 */		case 26 :
-			DIV(&hi, &lo, rs, rt);
-			registersWrite(nti("hi"),hi);
-			registersWrite(nti("lo"),lo);
+
+			DIV(rs, rt);
 			pcInc();
 			break;
 
@@ -186,9 +187,8 @@ int exe(int instruction){
 			break;
 
 */		case 24 :
-			MULT(&hi, &lo, rs, rt);
-			registersWrite(nti("hi"),hi);
-			registersWrite(nti("lo"),lo);
+
+			MULT(rs, rt);
 			pcInc();
 			break;
 		
@@ -213,6 +213,7 @@ int exe(int instruction){
 			break;
 
 */		case 34 : 
+
 			SUB(&rd, rs, rt);
 			registersWrite(ird,rd);
 			pcInc();
@@ -233,6 +234,7 @@ int exe(int instruction){
 		*/
 
 		default :
+
 			perror("instruction error");
 			return -1;
 	}

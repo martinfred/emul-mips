@@ -18,7 +18,7 @@ int ADD(int *rd, int rs, int rt){
 
 }
 
-int ADDI(int * rd, int rs, int i){
+int ADDI(int *rd, int rs, int i){
 
 	if((rs > 0 && i > INT_MAX - rs) || (rs < 0 && i < INT_MIN - rs)){
 
@@ -48,21 +48,43 @@ int SUB(int *rd, int rs, int rt){
 		return 0;
 	}
 }
-int MULT(int *HI,int *LO, int rs, int rt){
+
+int MULT(int rs, int rt){
+
 	long res;
+	int hi, lo;
+	
+	hi = 0;
+	lo = 0;
+
 
 	res = rs * rt;
-	*HI = (res & 0xFFFF0000) >> 16;
-	*LO = (res & 0x0000FFFF);
-	
-	return 0;
-}
-int DIV(int *HI,int *LO, int rs, int rt){
-	long res;
 
+	hi = (res & 0xFFFF0000) >> 16;
+	lo = (res & 0x0000FFFF);
+	
+	registersWrite(nti("hi"),hi);
+	registersWrite(nti("lo"),lo);
+
+
+	return 0;
+
+}
+
+int DIV(int rs, int rt){
+
+	long res;
+	int hi, lo;
+
+	hi = 0;
+	lo = 0,
+	
 	res = rs / rt;
-	*HI = (res & 0xFFFF0000) >> 16;
-	*LO = (res & 0x0000FFFF);
+	hi = (res & 0xFFFF0000) >> 16;
+	lo = (res & 0x0000FFFF);
+
+	registersWrite(nti("hi"),hi);
+	registersWrite(nti("lo"),lo);
 
 	return 0;
 }
