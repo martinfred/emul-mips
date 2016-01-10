@@ -305,7 +305,7 @@ int pcInc(void){
 
 	pc = registersRead(nti("pc"));
 
-	pc++;
+	pc += 4;
 
 	registersWrite(nti("pc"),pc);
 
