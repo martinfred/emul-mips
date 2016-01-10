@@ -261,13 +261,37 @@ int compile(char instruction[]){
 
 				i += n;
 
-			}  
+			}
+
+			/* argument négatif */
+
+			if('-' == inst[i]){
+
+	
+				j = i + 1;
+				n = 1;
+
+				arg = inst[j] - '0';
+			
+				while( '0' <= inst[j+1] && '9' >= inst[j+1] ){
+
+					arg = 10 * arg + (inst[j+1] - '0');
+					j++;
+					n++;
+				}
+
+				i += n;
+
+				arg = 1 + (65535 & ~arg);
+
+			}
+  
 		}				
 	}
 
 	/*____________________opCode____________________*/
 
-/*	printf("r[0] : %d, r[1] : %d, r[2] : %d, arg : %d\n",r[0],r[1],r[2],arg); */
+/* 	printf("r[0] : %d, r[1] : %d, r[2] : %d, arg : %d\n",r[0],r[1],r[2],arg); */
 
 
 	if(strcmp(operation,"ADD") == 0) {

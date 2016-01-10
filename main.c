@@ -17,15 +17,22 @@ int main(int argc, char *argv[]){
 	int i;
 	int mode = 0; /* 0 : one shot, 1 : step by step */
 	int nbsave = 0;
+
+
+
 /*
+	int a = 1;
+	int b = -1;
+
+
 	while(1){
 
-		printf("test : %d\n", 3/2  );
+		printf("b : %d, %x\n",b,b);
 
 		return 0;
 
 	}
-*/
+*/	
 
 
 

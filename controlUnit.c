@@ -87,24 +87,48 @@ int exe(int instruction){
 	{ 
 		opCode = instruction & 63;	/*masque*/
 		/*RTYPE*/
-		irs = ((31 << 21) & instruction) >> 21;
-		irt = ((31 << 16) & instruction) >> 16;
-		ird = ((31 << 11) & instruction) >> 11;
+		irs = ((0x1F << 21) & instruction) >> 21;
+		irt = ((0x1F << 16) & instruction) >> 16;
+		ird = ((0x1F << 11) & instruction) >> 11;
+
+
 		arg = 0xFFFF & instruction;
+				
 
+	}else{ /* not SPECIAL */
 
-	}else{
-		opCode = (instruction & (63 << 26)) >> 26;	/*masque*/
+		opCode = (instruction & (0x3F << 26)) >> 26;	/*masque*/
 
-		if ((opCode == 2) | (opCode == 3))
-		{
-			/*JTYPE*/
+		if ((opCode == 2) | (opCode == 3)){
+		
 			arg = 0x3FFFFFF & instruction;
+
 		}else{
-			/*ITYPE*/
-			irs = ((31 << 21) & instruction) >> 21;
-			irt = ((31 << 16) & instruction) >> 16;
-		}	arg = 0xFFFF & instruction;
+
+			irs = ((0x1F << 21) & instruction) >> 21;
+			irt = ((0x1F << 16) & instruction) >> 16;
+		
+			if(0 != (instruction & (0x1 << 15))){ 
+
+				arg = 0xFFFF & instruction;
+				
+			} else { /* argument négatif */
+
+				arg = 0xFFFF & instruction;
+				printf("arg : %d\n",arg);
+
+				arg = (0xFFFF << 16) | arg;
+				printf("arg : %d\n",arg);
+
+				arg += 1;
+				printf("arg : %d\n",arg);						
+				
+				arg = -arg;
+				printf("arg : %d\n\n",arg);
+			}
+		
+		}
+
 	}
 
 	rs = registersRead(irs);
@@ -181,9 +205,10 @@ int exe(int instruction){
 		case 5 : /* BNE */
 			
 			if(rs != rt){
-		
+				printf("arg : %d\n",arg);
+				printf("pc : %d\n",registersRead(nti("pc")));
 				registersWrite(nti("pc"),registersRead(nti("pc")) + arg);
-		
+				printf("pc : %d\n",registersRead(nti("pc")));		
 			}else{
 		
 				pcInc();
@@ -254,14 +279,14 @@ int exe(int instruction){
 		case 0 : 
 			SLL(&rd, rs, arg);
 			break;
-*/
-		case 42 : /* SLT */ 
+
+		case 42 :  SLT  
 
 			SLT(&rd, rs, rt);
 			registersWrite(ird,rd);
 			pcInc();
 			break;
-/*
+
 		case 2 : 
 			SRL(&rd, rs, arg);
 			break;
@@ -305,7 +330,7 @@ int pcInc(void){
 
 	pc = registersRead(nti("pc"));
 
-	pc += 4;
+	pc += 1;
 
 	registersWrite(nti("pc"),pc);
 

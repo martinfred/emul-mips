@@ -8,12 +8,16 @@
 #ADDI $s4, $zero, 2
 #DIV $s3, $s4
 
-ADDI $s0, $zero, 3
-ADDI $s1, $zero, 1
+#ADDI $s0, $zero, 3
+#ADDI $s1, $zero, 1
 
 #AND $s2, $s0, $s1
 
-BNE $s0, $s1, 1
-ADDI $s2, $zero, 10
-ADDI $s3, $zero, -10
+#BNE $s0, $s1, 1
+#ADDI $s2, $zero, 10
+#ADDI $s3, $zero, -10
+
+ADDI $s0, $zero, 8
+ADDI $s1, $zero, 1
+BNE $s0, $s1, -1
 
