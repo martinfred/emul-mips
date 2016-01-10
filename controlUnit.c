@@ -169,13 +169,17 @@ int exe(int instruction){
 		case 8 :
 			JR(rs);
 			break;
-
+*/
 		case 15 :
-			LUI(&rt, arg);
+			/*LUI*/
+			registersWrite(irt, (arg << 16));
+			pcInc();
 			break;
-
+/*
 		case 35 :
-			LW(&rt, rs, arg);
+			LW(&rt, irs, arg);
+			registersWrite(irt,rt);
+			pcInc();
 			break;
 */
 		case 16 :
@@ -209,11 +213,13 @@ int exe(int instruction){
 		case 0 : 
 			SLL(&rd, rs, arg);
 			break;
-
+*/
 		case 42 : 
 			SLT(&rd, rs, rt);
+			registersWrite(ird,rd);
+			pcInc();
 			break;
-
+/*
 		case 2 : 
 			SRL(&rd, rs, arg);
 			break;
@@ -322,4 +328,73 @@ int ROTR(int *rd, int rt, int sa){
 
 	return 0;
 
+}
+
+int SLT(int *rd, int rs, int rt){
+
+	if(rs < rt){
+		*rd = 1;
+	}else{
+		*rd = 0;
+	}
+	return 0;
+}
+/*
+int LW(int *rt, int irs, int arg){
+	int vAddr = irs + arg;
+
+	*rt = registersRead(vAddr);
+	
+	return 0;
+}
+*/
+
+int BEQ(int rs, int rt, int arg){
+
+	if(rs == rt){
+		registersWrite(nti("pc"), arg);
+	}else{
+		pcInc();
+	}
+
+	return 0;
+}
+
+int BNE(int rs, int rt, int arg){
+
+	if(rs != rt){
+		registersWrite(nti("pc"), arg);
+	}else{
+		pcInc();
+	}
+
+	return 0;
+}
+
+int BGTZ(int rs, int arg){
+
+	if(rs > 0){
+		registersWrite(nti("pc"), arg);
+	}else{
+		pcInc();
+	}
+
+	return 0;
+}
+
+int BLEZ(int rs, int arg){
+
+	if(rs <= 0){
+		registersWrite(nti("pc"), arg);
+	}else{
+		pcInc();
+	}
+
+	return 0;
+}
+
+int J(int arg){
+
+	
+	return 0;
 }
