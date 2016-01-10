@@ -7,4 +7,6 @@ ADD $s2, $s0, $s1
 ADDI $s3, $zero, 2
 MULT $s2, $s3
 
+MFLO $s4
+
 

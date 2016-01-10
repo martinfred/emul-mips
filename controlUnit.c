@@ -177,16 +177,22 @@ int exe(int instruction){
 		case 35 :
 			LW(&rt, rs, arg);
 			break;
-
+*/
 		case 16 :
-			MFHI(&rd);
+
+			/* MFHI */
+			registersWrite(ird,registersRead(nti("hi")));
+			pcInc();
 			break;
 
 		case 18 :
-			MFLO(&rd);
+
+			/* MFLO */
+			registersWrite(ird,registersRead(nti("lo")));
+			pcInc();
 			break;
 
-*/		case 24 :
+		case 24 :
 
 			MULT(rs, rt);
 			pcInc();
