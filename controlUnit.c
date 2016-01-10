@@ -1,5 +1,6 @@
-#include "controlUnit.h"
 #include <math.h>
+
+#include "controlUnit.h"
 
 int run(int adresse, int mode){
 
@@ -121,38 +122,76 @@ int exe(int instruction){
 			pcInc();
 			break;
 
-		case 8 :
-
+		case 8 : /* ADDI */
+			
 			ADDI(&rt, rs, arg);
 			registersWrite(irt,rt);
 			pcInc();
 			break;
 
 
-		case 36 :
+		case 36 : /* AND */
 
-			AND(&rd, rs, rt);
+			rd = rs & rt;
 			registersWrite(ird,rd),
 			pcInc();
 			break;
 
-/*		case 4 :
-			BEQ(rs, rt, arg);
+		case 4 : /* BEQ */
+
+			if(rs == rt){
+		
+				registersWrite(nti("pc"),registersRead(nti("pc")) + arg);
+		
+			}else{
+		
+				pcInc();
+		
+			}
+
 			break;
 
-		case 7 :
-			BGTZ(&rs, arg);
+		case 7 : /* BGTZ */
+
+			if(rs > 0){
+		
+				registersWrite(nti("pc"),registersRead(nti("pc")) +  arg);
+		
+			}else{
+		
+				pcInc();
+		
+			}
+	
 			break;
 
-		case 6 :
-			BLEZ(&rs, arg);
+		case 6 : /* BLEZ */
+
+			if(rs <= 0){
+		
+				registersWrite(nti("pc"),registersRead(nti("pc")) +  arg);
+		
+			}else{
+		
+				pcInc();
+		
+			}
 			break;
 
-		case 5 :
-			BNE(rs, rt, arg);
+		case 5 : /* BNE */
+			
+			if(rs != rt){
+		
+				registersWrite(nti("pc"),registersRead(nti("pc")) + arg);
+		
+			}else{
+		
+				pcInc();
+		
+			}
 			break;
 
-*/		case 26 :
+		case 26 : /* DIV */
 
 			DIV(rs, rt);
 			pcInc();
@@ -170,42 +209,44 @@ int exe(int instruction){
 			JR(rs);
 			break;
 */
-		case 15 :
-			/*LUI*/
-			registersWrite(irt, (arg << 16));
+		case 15 : /* LUI */
+			
+			registersWrite(irt,(arg << 16));
 			pcInc();
 			break;
 /*
-		case 35 :
+		case 35 :  LOAD
 			LW(&rt, irs, arg);
 			registersWrite(irt,rt);
 			pcInc();
 			break;
 */
-		case 16 :
+		case 16 : /* MFHI */
 
-			/* MFHI */
 			registersWrite(ird,registersRead(nti("hi")));
 			pcInc();
 			break;
 
-		case 18 :
+		case 18 : /* MFLO */
 
-			/* MFLO */
 			registersWrite(ird,registersRead(nti("lo")));
 			pcInc();
 			break;
 
-		case 24 :
+		case 24 : /* MULT */
 
 			MULT(rs, rt);
 			pcInc();
 			break;
 		
-/*		case 37 :
-			OR(&rd, rs, rt);
+		case 37 : /* OR */
+
+			rd = rs | rt;
+			registersWrite(ird,rd);
+			pcInc();	
 			break;
 
+/*
 		case 2 :
 			ROTR(&rt, rs, arg);
 			break;
@@ -214,7 +255,8 @@ int exe(int instruction){
 			SLL(&rd, rs, arg);
 			break;
 */
-		case 42 : 
+		case 42 : /* SLT */ 
+
 			SLT(&rd, rs, rt);
 			registersWrite(ird,rd);
 			pcInc();
@@ -224,7 +266,7 @@ int exe(int instruction){
 			SRL(&rd, rs, arg);
 			break;
 
-*/		case 34 : 
+*/		case 34 : /* SUB */
 
 			SUB(&rd, rs, rt);
 			registersWrite(ird,rd);
@@ -238,17 +280,18 @@ int exe(int instruction){
 		case 12 : 
 			SYSCALL();
 			break;
+*/
+		case 38 : /* XOR */
 
-		case 38 : 
-			 XOR(&rd, rs, rt) 
+			rd = rs ^ rt;
+			registersWrite(ird,rd); 
 			break;
-
-		*/
 
 		default :
 
-			perror("instruction error");
+			perror("instruction error");		
 			return -1;
+
 	}
 
 	return 0;
@@ -270,27 +313,7 @@ int pcInc(void){
 
 }
 
-int AND(int *rd, int rs, int rt){
-
-	*rd = rs & rt;
-	return 0;
-
-}
-
-int OR(int *rd, int rs, int rt){
-
-	*rd = rs | rt;
-	return 0;
-
-}
-
-int XOR(int *rd, int rs, int rt){
-
-	*rd = rs ^ rt;
-	return 0;
-
-}
-
+/*
 int SLL(int *rd, int rt, int sa){
 
 	*rd = rt << sa;
@@ -339,7 +362,7 @@ int SLT(int *rd, int rs, int rt){
 	}
 	return 0;
 }
-/*
+
 int LW(int *rt, int irs, int arg){
 	int vAddr = irs + arg;
 
@@ -347,54 +370,5 @@ int LW(int *rt, int irs, int arg){
 	
 	return 0;
 }
+
 */
-
-int BEQ(int rs, int rt, int arg){
-
-	if(rs == rt){
-		registersWrite(nti("pc"), arg);
-	}else{
-		pcInc();
-	}
-
-	return 0;
-}
-
-int BNE(int rs, int rt, int arg){
-
-	if(rs != rt){
-		registersWrite(nti("pc"), arg);
-	}else{
-		pcInc();
-	}
-
-	return 0;
-}
-
-int BGTZ(int rs, int arg){
-
-	if(rs > 0){
-		registersWrite(nti("pc"), arg);
-	}else{
-		pcInc();
-	}
-
-	return 0;
-}
-
-int BLEZ(int rs, int arg){
-
-	if(rs <= 0){
-		registersWrite(nti("pc"), arg);
-	}else{
-		pcInc();
-	}
-
-	return 0;
-}
-
-int J(int arg){
-
-	
-	return 0;
-}
