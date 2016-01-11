@@ -17,10 +17,10 @@
 #ADDI $s2, $zero, 10
 #ADDI $s3, $zero, -10
 
-#ADDI $s0, $zero, 8
-#ADDI $s1, $zero, 1
-#ADDI $s1, $s1, 1
-#BNE $s0, $s1, -1
+ADDI $s0, $zero, 8
+ADDI $s1, $zero, 1
+ADDI $s1, $s1, 1
+BNE $s0, $s1, -1
 
 #ADDI $s0, $zero, 42
 #SW $s0, 

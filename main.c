@@ -111,7 +111,7 @@ int main(int argc, char *argv[]){
 			/* clean terminal */
 				printf("\033[H\033[2J");
 
-				printf("Instruction : %s\n",instruction);
+				printf("Instruction : %s",instruction);
 		
 				inst = compile(instruction);
 	

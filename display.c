@@ -49,15 +49,12 @@ int registersDisplay(void){
 	printf("[28] gp : %d\t",registersRead(28));
 	printf("[29] sp : %d\n",registersRead(29));
 	printf("[30] fp : %d\t",registersRead(30));
-	printf("[31] ra : %d\n\n",registersRead(31));
-
-	printf("pc : %d\n\n",registersRead(32));
+	printf("[31] ra : %d\n",registersRead(31));
 
 	printf("lo : %d\t",registersRead(33));
-	printf("hi : %d\n\n",registersRead(34));
+	printf("hi : %d\n",registersRead(34));
 
-
-
+	printf("pc : %d\n\n",registersRead(32));
 
 
 

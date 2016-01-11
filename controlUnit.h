@@ -4,6 +4,7 @@
 #include "alu.h"
 #include "registers.h"
 #include "memory.h"
+#include "display.h"
 
 /* This function manage the instruction of a program*/
 int run(int adresse, int mode);

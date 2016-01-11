@@ -1,5 +1,3 @@
-#include <math.h>
-
 #include "controlUnit.h"
 
 int run(int adresse, int mode){
@@ -45,8 +43,7 @@ int run(int adresse, int mode){
 		/* step by step mode */
 
 		printf("Welocome in Step by Step mode !\n");
-		
-		printf("press enter to continue\n");
+		printf("press enter to begin\n");
 
 		do{
 
@@ -54,7 +51,39 @@ int run(int adresse, int mode){
 
 		}while(10 != key);
 
+
+		while(memoryRead(registersRead(nti("pc"))) != 0){
+		
+
+		/*________Instruction execution________*/			
+
+
+			printf("\033[H\033[2J");
+
+	
+			if(0 != exe(memoryRead(registersRead(nti("pc"))),mode)){
 			
+				perror("instruction execution error");
+				return -1;
+			}
+
+			registersDisplay();
+	
+	
+
+			printf("press enter to continue\n");
+
+			do{
+
+				key = getchar();
+
+			}while(10 != key);
+
+
+
+		}
+
+		
 
 
 			
