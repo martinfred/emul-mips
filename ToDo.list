@@ -1,10 +1,14 @@
-- gestion des arguments (ex : prog.comp)
-- mode pas à pas
+- fonction J, JR, ...
+- fonction LOAD et STORE
 
+- Comtpe rendu
+
+- version_1
 
 BONUS :
 - couleur modification d'un registre
-- flèche pour reprendre commande précédante
+- "exit" mode pas à pas
+- gestion des sauvegarde ?
 
 
 
