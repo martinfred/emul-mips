@@ -1,0 +1,17 @@
+
+
+compiler.c :
+
+Ce fichier permet de traduire une ligne assembleur en un entier (exe : ADD $2, $3, $4 : 641020).
+
+La fonction memoryCompiler compile toute les lignes du fichier en argument dans la mémoire du microcontroleur à partir de l'adresse 0.
+
+
+alu.c :
+
+Ce fichier contient toutes les opérations artihmétiques et logiques effectué. (ADD, ADDI, MULT ...), c'est fonction vérifie également que l'opération est possible.
+
+
+
+
+

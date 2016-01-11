@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h> 
 
+#include "registers.h"
 #include "memory.h"
 
 /* This function translate a assembleur instruction in binary instruction */
@@ -12,5 +13,5 @@ int fileCompile(char file[], char * fileName);
 /* This funcion translate all the instructions from a file .mips to the memory */
 int memoryCompile(char file[]);
 
-/* TO DO :
-in memory compile : if the input file is a .comp, just copy the instructions from the file to the memory */
+
+

@@ -1,3 +1,23 @@
-ADDI $16, $0, 42
-ADDI $17, $0, 200
-AND $18, $17, $18
+#Programme de test n°1
+
+#ADDI $s0, $zero, 42
+#ADDI $s1, $zero, 200
+#ADD $s2, $s0, $s1
+
+#ADDI $s3, $zero, 43
+#ADDI $s4, $zero, 2
+#DIV $s3, $s4
+
+#ADDI $s0, $zero, 3
+#ADDI $s1, $zero, 1
+
+#AND $s2, $s0, $s1
+
+#BNE $s0, $s1, 1
+#ADDI $s2, $zero, 10
+#ADDI $s3, $zero, -10
+
+ADDI $s0, $zero, 8
+ADDI $s1, $zero, 1
+BNE $s0, $s1, -1
+

@@ -5,6 +5,7 @@ int compile(char instruction[]){
 
 	char inst[30];
 	char operation[5];
+	char reg[5];
 
 	int opCode = -1;
 	int r[3];
@@ -14,6 +15,11 @@ int compile(char instruction[]){
 
 	int res = -1;	
 
+
+	r[0] = 0;
+	r[1] = 0;
+	r[2] = 0;
+	arg = 0;
 	
 
 	/*____________________remove space and comments____________________*/
@@ -50,39 +56,222 @@ int compile(char instruction[]){
 
 	}
 
-	operation[i+1]= '\0';
-
-	
 	/*___________________arguments__________________*/
 	
 	j = 0;
 
 	for(i = strlen(operation); i < strlen(inst); i++){
 	
-		
 		if('$' == inst[i]){
 
-			if('0' <= inst[i+2] && '9' >= inst[i+2]){
-				
-				r[j] = (inst[i+1] - '0')*10 + inst[i+2] - '0';
-				i += 2;
+			if((inst[i+1] >= '0') && (inst[i+1] <= '9')){
+				if((inst[i+2] >= '0') && (inst[i+2] <= '9')){
 
-			} else {
+					r[j] = (inst[i+1] - '0')*10 + inst[i+2] - '0';
+					i += 2;
 
-				r[j] = inst[i+1] - '0';
-				i++;
+				}else{
+
+					r[j] = inst[i+1] - '0';
+					i ++;
+
+				}
+
+			}else{
+				if(inst[i+1] == 'F'){
+
+					if(inst[i+2] == 'P'){
 		
-			}
-			
-			j++;		
+						r[j] = nti("fp");
+						i += 2;
 
-		} else {
+					}else{
+
+						perror("The register f* not exist");
+						return -1;
+
+					}
+
+				}
+
+				if(inst[i+1] == 'Z'){
+
+					if((inst[i+2] == 'E') && (inst[i+3] == 'R') && (inst[i+4] == 'O')){
+
+						r[j] = nti("zero");
+						i += 4;
+
+					}else{
+
+						perror("The register z*** not exist");
+						return -1;
+
+					}
+
+				}
+
+				if(inst[i+1] == 'R'){
+
+					if(inst[i+2] == 'A'){
+
+						r[j] = nti("ra");
+						i += 2;
+
+					}else{
+
+						perror("The register r* not exist");
+						return -1;
+				
+					}
+				}
+
+				if(inst[i+1] == 'G'){
+				
+					if(inst[i+2] == 'P'){
+
+						r[j] = nti("gp");
+						i += 2;
+				
+					}else{
+
+						perror("The register g* not exist");
+						return -1;
+
+					}
+				}
+
+				if(inst[i+1] == 'S'){
+
+					if(inst[i+2] == 'P'){
+
+						r[j] = nti("sp");
+						i += 2;
+
+					}else{
+						if((inst[i+2] >= '0') && (inst[i+2] <= '7')){
+
+											
+							sprintf(reg,"s%c",inst[i+2]);
+							r[j] = nti(reg);
+							
+							i += 2;
+
+						}else{
+
+							perror("The register s* not exist");
+							return -1;
+
+						}	
+					}
+				}
+
+				if(inst[i+1] == 'T'){
+
+					if((inst[i+2] >= '0') && (inst[i+2] <= '9')){
+
+						sprintf(reg,"t%c",inst[i+2]);
+						r[j] = nti(reg);
+						
+						i += 2;				
+
+					}else{
+	
+						perror("The register t* not exist");
+						return -1;
+
+					}
+				}
+
+				if(inst[i+1] == 'V'){
+
+					if((inst[i+2] == '0') || (inst[i+2] == '1')){	
+
+						sprintf(reg,"v%c",inst[i+2]);
+						r[j] = nti(reg);
+						
+						i += 2;
+
+					}else{
+
+						perror("The register v* not exist");
+						return -1;
+
+					}						
+				}
+
+				if(inst[i+1] == 'A'){
+
+					if(inst[i+2] == 'T'){
+
+						r[j] = nti("at");
+						i += 2;	
+
+					}else{
+						if((inst[i+2] >= '0') && (inst[i+2] <= '3')){
+
+							sprintf(reg,"a%c",inst[i+2]);
+							r[j] = nti(reg);
+						
+							i += 2;	
+
+						}else{
+
+							perror("The register a* not exist");
+							return -1;
+
+						}
+					}
+				}
+
+				if(inst[i+1] == 'K'){
+				
+					if((inst[i+2] == '0') || (inst[i+2] == '1')){
+						
+						sprintf(reg,"k%c",inst[i+2]);
+						r[j] = nti(reg);
+							
+						i += 2;				
+
+					}else{
+
+						perror("The register k* not exist");
+						return -1;
+
+					}
+				}			
+			}
+
+			j++;	
+
+		}else{
 	
 			if('0' <= inst[i] && '9' >= inst[i]){
-		
-						
-	
+			
 				j = i;
+				n = 1;
+
+				arg = inst[j] - '0';
+			
+				while( '0' <= inst[j+1] && '9' >= inst[j+1] ){
+
+					arg = 10 * arg + (inst[j+1] - '0');
+					j++;
+					n++;
+				}
+				if(arg > 32767){
+					perror("OVERFLOW");
+						return -1;
+				} 
+				i += n;
+
+			}
+
+			/* argument négatif */
+
+			if('-' == inst[i]){
+
+	
+				j = i + 1;
 				n = 1;
 
 				arg = inst[j] - '0';
@@ -96,15 +285,21 @@ int compile(char instruction[]){
 
 				i += n;
 
-						
+				arg = 1 + (65535 & ~arg);
 
-			}  
-		}
-		
-				
+				if(arg <= 32767){
+					perror("OVERFLOW");
+						return -1;
+				} 
+			}
+  
+		}				
 	}
 
 	/*____________________opCode____________________*/
+
+/* 	printf("r[0] : %d, r[1] : %d, r[2] : %d, arg : %d\n",r[0],r[1],r[2],arg); */
+
 
 	if(strcmp(operation,"ADD") == 0) {
 
@@ -166,7 +361,7 @@ int compile(char instruction[]){
 
 		opCode = 26;
 
-		res = (r[1] << 21) | (r[2] << 16) | opCode;
+		res = (r[0] << 21) | (r[1] << 16) | opCode;
 	
 	}
 
@@ -326,6 +521,7 @@ int fileCompile(char file[], char * fileName){
 	char instruction[100];
 	char name[100];
 	
+	int inst;
 	int i = 0;
 
 	/*________compile file name_________*/
@@ -371,12 +567,16 @@ int fileCompile(char file[], char * fileName){
 
 	/*________ instructions compilation___________*/
 	
-	i = 0;
 
 	while(fgets(instruction, 60 , fileI) != NULL){
 
-		fprintf(fileC,"%d\n",compile(instruction));
+		inst = compile(instruction);
+
+		if(-1 != inst){
+
+			fprintf(fileC,"%d\n",inst);
 			
+		}
 	}
 
 	/*_________file closing ____________________*/
@@ -396,13 +596,14 @@ int memoryCompile(char file[]){
 	
 	char instruction[100];
 	
-	int i = 0;
+	int inst;
+	int j,i = 0;
 
 
 	/*________file opening____________*/
 
 
-	fileI = fopen(file, "r");
+	fileI = fopen(file,"r");
 
 
 
@@ -418,8 +619,30 @@ int memoryCompile(char file[]){
 
 	while(fgets(instruction, 60 , fileI) != NULL){
 
-		memoryWrite(i,compile(instruction));
-		i++;
+/*		printf("-> instruction : %s\n",instruction);*/
+
+		j = 0;
+		
+		while('\0' != instruction[j]){
+
+			if('a' <= instruction[j] && 'z' >= instruction[j]){
+			
+				instruction[j] -= 32;
+
+			}
+			
+			j++;
+		}
+
+
+		inst = compile(instruction);
+
+		if(-1 != inst){
+
+			memoryWrite(i,inst);
+			i++;
+
+		}
 			
 	}
 
