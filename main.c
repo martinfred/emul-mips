@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
 	int mode = 0; /* 0 : one shot, 1 : step by step */
 	int nbsave = 0;
 
-
+	printf("\033[H\033[2J");
 
 /*
 	int a = 1;
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
 	
 		while(1){
 
-			
+			printf("\"EXIT\" to close, \"SAVE\" to save registers\n"); 
 			printf("Instruction : ");
 		
 			fgets (instruction, 100, stdin);
@@ -98,16 +98,30 @@ int main(int argc, char *argv[]){
 			
 	  		if(strcmp(instruction,"EXIT\n") == 0) break; /*fgets add  \n at the end */
 
-			inst = compile(instruction);
+			if(strcmp(instruction,"SAVE\n") == 0){
 
-			printf("compile : %X\n",inst);
+				saveMemory(nbsave);
+			
+				nbsave++;
+				
+				printf("registers save\n");			
 
-			exe(inst,mode);
+			} else {
 
-			registersDisplay();
+			/* clean terminal */
+				printf("\033[H\033[2J");
 
-			saveMemory(nbsave);
-			nbsave++;
+				printf("Instruction : %s\n",instruction);
+		
+				inst = compile(instruction);
+	
+				printf("Compile : %X\n",inst);
+
+				exe(inst,0);
+
+				registersDisplay();
+	
+			}
 		}
 
 

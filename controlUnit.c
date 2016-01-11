@@ -133,6 +133,8 @@ int exe(int instruction, int mode){
 	switch(opCode){
 
 		case 32 :  /* ADD */
+
+			if(1 == mode) printf("ADD $%d, $%d, $%d\n",ird,irs,irt); 
 	
 			ADD(&rd, rs, rt);
 			registersWrite(ird,rd);
@@ -141,11 +143,7 @@ int exe(int instruction, int mode){
 
 		case 8 : /* ADDI */
 
-			if(1 == mode){
-
-				printf("ADDI $%d, $%d, %d\n",irt,irs,arg);		
-
-			}
+			if(1 == mode) printf("ADDI $%d, $%d, %d\n",irt,irs,arg);		
 			
 			ADDI(&rt, rs, arg);
 			registersWrite(irt,rt);
@@ -203,17 +201,14 @@ int exe(int instruction, int mode){
 
 		case 5 : /* BNE */
 			
+			if(1 == mode) printf("BNE $%d, $%d, %d\n",irs,irt,arg);
+		
 			if(rs != rt){
 			
-				printf("%d != %d\n",rs,rt);
-
-				printf("pc : %d\n",registersRead(nti("pc")));
 				registersWrite(nti("pc"),registersRead(nti("pc")) + arg);
-				printf("pc : %d\n",registersRead(nti("pc")));		
-
+			
 			}else{
 				
-				printf("%d = %d\n",rs,rt);
 				pcInc();
 		
 			}
@@ -242,13 +237,13 @@ int exe(int instruction, int mode){
 			registersWrite(irt,(arg << 16));
 			pcInc();
 			break;
-/*
-		case 35 :  LOAD
-			LW(&rt, irs, arg);
-			registersWrite(irt,rt);
+
+		case 35 : /* LW */
+			
+			registersWrite(memoryRead(rs + arg),rt);
 			pcInc();
 			break;
-*/
+
 		case 16 : /* MFHI */
 
 			registersWrite(ird,registersRead(nti("hi")));
@@ -278,33 +273,46 @@ int exe(int instruction, int mode){
 		case 2 :
 			ROTR(&rt, rs, arg);
 			break;
+*/
+		case 0 : /* SLL */
 
-		case 0 : 
-			SLL(&rd, rs, arg);
+			rd = rt << arg;
 			break;
 
-		case 42 :  SLT  
+		case 42 : /* SLT */  
 
-			SLT(&rd, rs, rt);
+			if(rs < rt){
+
+				rd = 1;
+
+			}else{
+
+				rd = 0;
+
+			}
+		
 			registersWrite(ird,rd);
 			pcInc();
 			break;
 
-		case 2 : 
-			SRL(&rd, rs, arg);
+		case 2 : /* SRL */
+
+			rd = rt >> arg;
 			break;
 
-*/		case 34 : /* SUB */
+		case 34 : /* SUB */
 
 			SUB(&rd, rs, rt);
 			registersWrite(ird,rd);
 			pcInc();
 			break;
 
-/*		case 43 : 
-			SW(&rs, arg, rt);
+		case 43 : /* SW */
+			
+			memoryWrite(rs + arg,rt);
+			pcInc();
 			break;
-
+/*
 		case 12 : 
 			SYSCALL();
 			break;
@@ -342,19 +350,7 @@ int pcInc(void){
 }
 
 /*
-int SLL(int *rd, int rt, int sa){
 
-	*rd = rt << sa;
-	return 0;
-
-}
-
-int SRL(int *rd, int rt, int sa){
-
-	*rd = rt >> sa;
-	return 0;
-
-}
 
 int ROTR(int *rd, int rt, int sa){
 	
@@ -379,24 +375,6 @@ int ROTR(int *rd, int rt, int sa){
 
 	return 0;
 
-}
-
-int SLT(int *rd, int rs, int rt){
-
-	if(rs < rt){
-		*rd = 1;
-	}else{
-		*rd = 0;
-	}
-	return 0;
-}
-
-int LW(int *rt, int irs, int arg){
-	int vAddr = irs + arg;
-
-	*rt = registersRead(vAddr);
-	
-	return 0;
 }
 
 */
