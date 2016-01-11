@@ -19,5 +19,5 @@
 
 ADDI $s0, $zero, 8
 ADDI $s1, $zero, 1
-BNE $s0, $s1, -1
+BNE $s0, $s1, -2
 

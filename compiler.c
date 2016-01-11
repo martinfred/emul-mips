@@ -281,9 +281,9 @@ int compile(char instruction[]){
 				}
 
 				i += n;
-
-				arg = 1 + (65535 & ~arg);
-
+				
+				arg = 0xFFFF & (1 + ~arg);
+			
 			}
   
 		}				

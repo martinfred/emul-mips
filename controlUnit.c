@@ -108,23 +108,14 @@ int exe(int instruction){
 			irs = ((0x1F << 21) & instruction) >> 21;
 			irt = ((0x1F << 16) & instruction) >> 16;
 		
-			if(0 != (instruction & (0x1 << 15))){ 
+			if(0 == (instruction & (0x1 << 15))){ 
 
 				arg = 0xFFFF & instruction;
 				
 			} else { /* argument négatif */
+						
+				arg = -(1 + ~((0xFFFF << 16) | (0xFFFF & instruction)));
 
-				arg = 0xFFFF & instruction;
-				printf("arg : %d\n",arg);
-
-				arg = (0xFFFF << 16) | arg;
-				printf("arg : %d\n",arg);
-
-				arg += 1;
-				printf("arg : %d\n",arg);						
-				
-				arg = -arg;
-				printf("arg : %d\n\n",arg);
 			}
 		
 		}
@@ -205,12 +196,16 @@ int exe(int instruction){
 		case 5 : /* BNE */
 			
 			if(rs != rt){
-				printf("arg : %d\n",arg);
+			
+				printf("%d != %d\n",rs,rt);
+
 				printf("pc : %d\n",registersRead(nti("pc")));
 				registersWrite(nti("pc"),registersRead(nti("pc")) + arg);
 				printf("pc : %d\n",registersRead(nti("pc")));		
+
 			}else{
-		
+				
+				printf("%d = %d\n",rs,rt);
 				pcInc();
 		
 			}
