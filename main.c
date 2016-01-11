@@ -102,7 +102,7 @@ int main(int argc, char *argv[]){
 
 			printf("compile : %X\n",inst);
 
-			exe(inst);
+			exe(inst,mode);
 
 			registersDisplay();
 

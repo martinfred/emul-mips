@@ -9,7 +9,7 @@
 int run(int adresse, int mode);
 
 /* This function execute one instruction */
-int exe(int instruction);
+int exe(int instruction, int mode);
 
 /* frame pointer increment */
 int pcInc(void);

@@ -23,12 +23,14 @@ int run(int adresse, int mode){
 
 	if(0 == mode){
 
+		mode = 1;
+
 		while(memoryRead(registersRead(nti("pc"))) != 0){
 		
 
 		/*________Instruction execution________*/			
 	
-			if(0 != exe(memoryRead(registersRead(nti("pc"))))){
+			if(0 != exe(memoryRead(registersRead(nti("pc"))),mode)){
 			
 				perror("instruction execution error");
 				return -1;
@@ -64,7 +66,7 @@ int run(int adresse, int mode){
 
 
 
-int exe(int instruction){
+int exe(int instruction, int mode){
 
 	int opCode;
 	
@@ -138,6 +140,12 @@ int exe(int instruction){
 			break;
 
 		case 8 : /* ADDI */
+
+			if(1 == mode){
+
+				printf("ADDI $%d, $%d, %d\n",irt,irs,arg);		
+
+			}
 			
 			ADDI(&rt, rs, arg);
 			registersWrite(irt,rt);
