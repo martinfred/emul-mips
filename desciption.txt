@@ -1,17 +1,57 @@
 
-
-compiler.c :
-
-Ce fichier permet de traduire une ligne assembleur en un entier (exe : ADD $2, $3, $4 : 641020).
-
-La fonction memoryCompiler compile toute les lignes du fichier en argument dans la mémoire du microcontroleur à partir de l'adresse 0.
+main.c
 
 
-alu.c :
+--------------------------------------------------------
+alu.h, alu.c :
 
-Ce fichier contient toutes les opérations artihmétiques et logiques effectué. (ADD, ADDI, MULT ...), c'est fonction vérifie également que l'opération est possible.
+Ces fichiers contiennent toutes les opérations effectuées par l'unité arithmétique et logique (ALU) du processeur MIPS. (ADD, ADDI, MULT ...), c'est fonction vérifie également que l'opération est possible.
+
+	int ADD(int * rd, int rs, int rt) :
+
+Cette fonction effectue la verification que l'addition de rs et rt est possible (sans overflow), si oui, le résultat est rangé dans rd (pointeur). La fonction retourne 0 si l'opération s'est déroulé correctment, -1 en cas d'overflow.
+
+	int ADDI(int * rd, int rs, int i) :
+Cette fonction est presque identique à ADD, sauf qu'elle à en paramètre une valeur immédiate au lieu de la valeur d'un registre
+
+	int SUB(int *rd, int rs, int rt) :
+Cette fonction fonctionne de la même façon que ADD, sauf q'elle effectue la soustraction de rs par rt.
+
+	int MULT(int rs, int rt) :
+Cette fonction effectue la multiplication de rs par rt. Le résultat est placé dans les registres hi et lo.
+
+	int DIV(int rs, int rt) :
+Cette fonction effectue la division de rs par rt, le résultat (entier) est placé dans le registre lo, le reste de la division est placé dans le registre hi.
 
 
+--------------------------------------------------------
+compiler.c, compiler. h :
+Ces fichiers regroupe les fonctions permettant la compilation des instruction d'un programme écrit en assembleur.
 
 
+	int compile(char instruction[]) :
+Cette fonction retourne un entier correspondant à la traduction d'une instruction en assembleur (exe : ADD $s0, $zero, $a3 : 78020). Si la traduction est impossible, elle retourne -1.
 
+	int memoryCompile(char file[]) :
+Cette fonction compile toute les lignes du fichier en argument dans la mémoire du microcontroleur à partir de l'adresse 0.
+
+	int fileCompile(char file[]) :
+Cette fonction compile toute les lignes du fichier en argument dans un fichier du même nom avec comme extenssion .comp
+
+Dans ces deux fonctions, les lignes vide ou composé uniquement d'un commentaire sont supprimé.
+
+--------------------------------------------------------
+controlUnit.c, controlUnit.h :
+
+Ce fichiers regroupe les fonctions permettant la gestion de l'execution d'un programme et des instructions.
+
+	int run(int adresse, int mode) :
+Cette fonction éxectue un programme en mémoire à partir de l'adresse en paramètre. Le mode permet est à 1 si l'éxecution doit ce faire en pas à pas.
+
+	int exe(int instruction, int mode) :
+Cette fonction execute l'instruction en paramètre. 
+
+	int pcInc(void) :
+Cette fonction incrémente le registre pc (program counter)
+
+--------------------------------------------------------
