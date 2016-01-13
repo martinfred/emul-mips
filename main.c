@@ -1,3 +1,19 @@
+/*
+Projet emul-mips
+MAIN.C
+
+Martin FRAY (martin.fray@etu.esisar.grenoble-inp.fr)
+Quentin FRITAYRE (quentin.fritayre@etu.grenoble-inp.fr)
+
+Grenoble INP - esisar
+P2018
+
+Valence
+13 janvier 2016
+*/
+
+
+
 #include <stdio.h>
 #include <string.h>
 
@@ -23,17 +39,19 @@ int main(int argc, char *argv[]){
 
 
 
-/* debug
+/*  <[°_°]> debug <[°_°]>  */
+/*
 
 	while(1){
 
-		compile("LW $s0, 100(3)");
+		printf("LW $s0, 100(3)\n");
+		compile("LW $s0, 100(3)\0");
 
 		return 0;
 
 	}
-	
-*/
+*/	
+
 
 
 

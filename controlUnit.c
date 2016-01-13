@@ -1,3 +1,19 @@
+/*
+Projet emul-mips
+CONTROLUNIT.C
+
+Martin FRAY (martin.fray@etu.esisar.grenoble-inp.fr)
+Quentin FRITAYRE (quentin.fritayre@etu.grenoble-inp.fr)
+
+Grenoble INP - esisar
+P2018
+
+Valence
+13 janvier 2016
+*/
+
+
+
 #include "controlUnit.h"
 
 int run(int adresse, int mode){

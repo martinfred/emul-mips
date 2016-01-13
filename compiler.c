@@ -154,7 +154,7 @@ int compile(char instruction[]){
 											
 							sprintf(reg,"s%c",inst[i+2]);
 							r[j] = nti(reg);
-							
+	
 							i += 2;
 
 						}else{
@@ -253,7 +253,7 @@ int compile(char instruction[]){
 
 				arg = inst[j] - '0';
 			
-				while( '0' <= inst[j+1] && '9' >= inst[j+1] ){
+			while( '0' <= inst[j+1] && '9' >= inst[j+1] ){
 
 					arg = 10 * arg + (inst[j+1] - '0');
 					j++;
@@ -312,7 +312,7 @@ int compile(char instruction[]){
 
 	/*____________________opCode____________________*/
 
-/* 	printf("r[0] : %d, r[1] : %d, r[2] : %d, arg : %d\n",r[0],r[1],r[2],arg); */
+/* 	printf("r[0] : %d, r[1] : %d, r[2] : %d, arg : %d, base : %d\n",r[0],r[1],r[2],arg,base); */
 
 
 	if(strcmp(operation,"ADD") == 0) {
@@ -414,8 +414,8 @@ int compile(char instruction[]){
 	if(strcmp(operation,"LW") == 0) {
 
 		opCode = 35; 
-
-		res = (opCode << 26) | (r[1] << 21) | (r[0] << 16) | arg;
+		printf("LW : base = %d, rt = %d, arg = %d\n",base,r[0],arg);
+		res = (opCode << 26) | base << 21 | (r[0] << 16) | arg;
 
 	}
 
