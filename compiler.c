@@ -10,6 +10,7 @@ int compile(char instruction[]){
 	int opCode = -1;
 	int r[3];
 	int arg = 0;
+	int base = 0;
 
 	int i, j, n;
 
@@ -62,9 +63,9 @@ int compile(char instruction[]){
 
 	for(i = strlen(operation); i < strlen(inst); i++){
 	
-		if('$' == inst[i]){
+		if('$' == inst[i]){ /* REGISTERS */
 
-			if((inst[i+1] >= '0') && (inst[i+1] <= '9')){
+			if((inst[i+1] >= '0') && (inst[i+1] <= '9')){ /* IF INDICE OF REGISTER */
 				if((inst[i+2] >= '0') && (inst[i+2] <= '9')){
 
 					r[j] = (inst[i+1] - '0')*10 + inst[i+2] - '0';
@@ -77,7 +78,7 @@ int compile(char instruction[]){
 
 				}
 
-			}else{
+			}else{ /* IF NAME REGISTERS */
 				if(inst[i+1] == 'F'){
 
 					if(inst[i+2] == 'P'){
@@ -243,7 +244,7 @@ int compile(char instruction[]){
 
 			j++;	
 
-		}else{
+		}else{ /* NO $ */
 	
 			if('0' <= inst[i] && '9' >= inst[i]){
 			
@@ -270,7 +271,7 @@ int compile(char instruction[]){
 	
 				j = i + 1;
 				n = 1;
-
+ 
 				arg = inst[j] - '0';
 			
 				while( '0' <= inst[j+1] && '9' >= inst[j+1] ){
@@ -284,9 +285,29 @@ int compile(char instruction[]){
 				
 				arg = 0xFFFF & (1 + ~arg);
 			
+			} 
+
+			if('(' == inst[i]){
+				
+				j = i + 1;
+				n = 1;
+
+				base = inst[j] - '0';
+			
+				while( '0' <= inst[j+1] && '9' >= inst[j+1] ){
+
+					base = 10 * base + (inst[j+1] - '0');
+					j++;
+					n++;
+				}
+
+				i += n + 1;
+
+				printf("base : %d\n",base);	
 			}
   
 		}				
+
 	}
 
 	/*____________________opCode____________________*/

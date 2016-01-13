@@ -20,20 +20,20 @@ int main(int argc, char *argv[]){
 
 	printf("\033[H\033[2J");
 
-/*
-	int a = 1;
-	int b = -1;
 
+
+
+/* debug
 
 	while(1){
 
-		printf("b : %d, %x\n",b,b);
+		compile("LW $s0, 100(3)");
 
 		return 0;
 
 	}
-*/	
-
+	
+*/
 
 
 
