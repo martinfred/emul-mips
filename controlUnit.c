@@ -264,25 +264,25 @@ int exe(int instruction, int mode){
 			JR(rs);
 			break;
 */
-		case 15 : /* LUI */
+		case 15 : /* LUI : Load Upper Immediate */
 			
 			registersWrite(irt,(arg << 16));
 			pcInc();
 			break;
 
-		case 35 : /* LW */
+		case 35 : /* LW : LOAD WORD */
 			
-			registersWrite(memoryRead(rs + arg),rt);
+			registersWrite(irt,memoryRead(rs + arg));
 			pcInc();
 			break;
 
-		case 16 : /* MFHI */
+		case 16 : /* MFHI : MOVE FROM HI */
 
 			registersWrite(ird,registersRead(nti("hi")));
 			pcInc();
 			break;
 
-		case 18 : /* MFLO */
+		case 18 : /* MFLO : MOVE FROM LO */
 
 			registersWrite(ird,registersRead(nti("lo")));
 			pcInc();
@@ -312,12 +312,12 @@ int exe(int instruction, int mode){
 			ROTR(&rt, rs, arg);
 			break;
 */
-		case 0 : /* SLL */
+		case 0 : /* SLL : Shift Word Left Logical */
 
 			rd = rt << arg;
 			break;
 
-		case 42 : /* SLT */  
+		case 42 : /* SLT : Set on Less Than */  
 
 			if(rs < rt){
 
@@ -333,7 +333,7 @@ int exe(int instruction, int mode){
 			pcInc();
 			break;
 
-		case 2 : /* SRL */
+		case 2 : /* SRL : Shift Word Right Logical */
 
 			rd = rt >> arg;
 			break;
@@ -351,7 +351,7 @@ int exe(int instruction, int mode){
 			pcInc();
 			break;
 
-		case 43 : /* SW */
+		case 43 : /* SW : Store Word */
 			
 			memoryWrite(rs + arg,rt);
 			pcInc();

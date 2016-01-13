@@ -1,9 +1,7 @@
 - fonction J, JR, ...
 - fonction LOAD et STORE
-- gestion des erreurs
-- gestion des instruction inutile (0xFFFF ?)
-- Comtpe rendu
-
+- CR
+- NOP
 - version_1
 
 BONUS :
