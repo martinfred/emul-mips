@@ -98,6 +98,7 @@ int run(int adresse, int mode){
 int exe(int instruction, int mode){
 
 	int opCode;
+	int spec = -1;
 	
 	int rs, rt, rd, arg;
 	int irs, irt, ird;
@@ -116,6 +117,7 @@ int exe(int instruction, int mode){
 
 	if(((63 << 26) & instruction) == 0) /* SPECIAL */
 	{ 
+		spec = 1;
 		opCode = instruction & 63;	/*masque*/
 		/*RTYPE*/
 		irs = ((0x1F << 21) & instruction) >> 21;
@@ -128,6 +130,7 @@ int exe(int instruction, int mode){
 
 	}else{ /* not SPECIAL */
 
+		spec = 0;
 		opCode = (instruction & (0x3F << 26)) >> 26;	/*masque*/
 
 		if ((opCode == 2) | (opCode == 3)){
@@ -158,241 +161,270 @@ int exe(int instruction, int mode){
 	rd = registersRead(ird);
 
 	/*_______Execute_________*/
-	
-	switch(opCode){
+	if(0  == spec){
+		switch(opCode){
 
-		case 32 :  /* ADD */
+			case 8 : /* ADDI */
 
-			if(1 == mode) printf("ADD $%d, $%d, $%d\n",ird,irs,irt); 
-	
-			if(0 !=	ADD(&rd, rs, rt)){
-
-				perror("ADD error");
-				return -1;	
-
-			}
-
-
-			registersWrite(ird,rd);
-			pcInc();
-			break;
-
-		case 8 : /* ADDI */
-
-			if(1 == mode) printf("ADDI $%d, $%d, %d\n",irt,irs,arg);		
+				if(1 == mode) printf("ADDI $%d, $%d, %d\n",irt,irs,arg);		
 			
 			
-			if(0 != ADDI(&rt, rs, arg)){
+				if(0 != ADDI(&rt, rs, arg)){
 			
-				perror("ADDI error");
-				return -1;
-			}
+					perror("ADDI error");
+					return -1;
+				}
 
-			registersWrite(irt,rt);
-			pcInc();
-			break;
-
-
-		case 36 : /* AND */
-
-			rd = rs & rt;
-			registersWrite(ird,rd),
-			pcInc();
-			break;
-
-		case 4 : /* BEQ */
-
-			if(rs == rt){
-		
-				registersWrite(nti("pc"),registersRead(nti("pc")) + arg);
-		
-			}else{
-		
+				registersWrite(irt,rt);
 				pcInc();
-		
-			}
+				break;
 
-			break;
+			case 4 : /* BEQ */
 
-		case 7 : /* BGTZ */
+				if(rs == rt){
+		
+					registersWrite(nti("pc"),registersRead(nti("pc")) + arg);
+		
+				}else{
+		
+					pcInc();
+		
+				}
 
-			if(rs > 0){
+				break;
+
+			case 7 : /* BGTZ */
+
+				if(rs > 0){
 		
-				registersWrite(nti("pc"),registersRead(nti("pc")) +  arg);
+					registersWrite(nti("pc"),registersRead(nti("pc")) +  arg);
 		
-			}else{
+				}else{
 		
-				pcInc();
+					pcInc();
 		
-			}
+				}
 	
-			break;
+				break;
 
-		case 6 : /* BLEZ */
+			case 6 : /* BLEZ */
 
-			if(rs <= 0){
+				if(rs <= 0){
 		
-				registersWrite(nti("pc"),registersRead(nti("pc")) +  arg);
+					registersWrite(nti("pc"),registersRead(nti("pc")) +  arg);
 		
-			}else{
+				}else{
 		
-				pcInc();
+					pcInc();
 		
-			}
-			break;
+				}
+				break;
 
-		case 5 : /* BNE */
+			case 5 : /* BNE */
 			
-			if(1 == mode) printf("BNE $%d, $%d, %d\n",irs,irt,arg);
+				if(1 == mode) printf("BNE $%d, $%d, %d\n",irs,irt,arg);
 		
-			if(rs != rt){
+				if(rs != rt){
 			
-				registersWrite(nti("pc"),registersRead(nti("pc")) + arg);
+					registersWrite(nti("pc"),registersRead(nti("pc")) + arg);
 			
-			}else{
+				}else{
 				
+					pcInc();
+		
+				}
+				break;
+
+			case 15 : /* LUI : Load Upper Immediate */
+			
+				registersWrite(irt,(arg << 16));
 				pcInc();
+				break;
+
+			case 35 : /* LW : LOAD WORD */
+			
+				registersWrite(irt,memoryRead(rs + arg));
+				pcInc();
+				break;
+
+			case 43 : /* SW : Store Word */
+			
+				memoryWrite(rs + arg,rt);
+				pcInc();
+				break;
+
+			case 2 : /* J*/
+				registersWrite(nti("pc"), arg);
+				break;
 		
-			}
-			break;
+			default :
 
-		case 26 : /* DIV */
-
-			if(0 != DIV(rs, rt)){
-
-				perror("DIV error");
+				perror("instruction error");		
 				return -1;
+		}
+	}else{
+		switch(opCode){
+
+			case 32 :  /* ADD */
+
+				if(1 == mode) printf("ADD $%d, $%d, $%d\n",ird,irs,irt); 
+	
+				if(0 !=	ADD(&rd, rs, rt)){
+
+					perror("ADD error");
+					return -1;	
+
+				}
+
+
+				registersWrite(ird,rd);
+				pcInc();
+				break;
+
+			case 36 : /* AND */
+
+				rd = rs & rt;
+				registersWrite(ird,rd),
+				pcInc();
+				break;
+
+			case 26 : /* DIV */
+
+				if(0 != DIV(rs, rt)){
+
+					perror("DIV error");
+					return -1;
 		
-			}
+				}
 
-			pcInc();
-			break;
+				pcInc();
+				break;
 
+			case 16 : /* MFHI : MOVE FROM HI */
+
+				registersWrite(ird,registersRead(nti("hi")));
+				pcInc();
+				break;
+
+			case 18 : /* MFLO : MOVE FROM LO */
+
+				registersWrite(ird,registersRead(nti("lo")));
+				pcInc();
+				break;
+
+			case 24 : /* MULT */
+
+				if(0 != MULT(rs, rt)){
+
+					perror("MULT error");
+					return -1;
+
+				}
+
+				pcInc();
+				break;
+
+			case 37 : /* OR */
+
+				rd = rs | rt;
+				registersWrite(ird,rd);
+				pcInc();	
+				break;
+
+			case 0 : /* SLL : Shift Word Left Logical */
+
+				rd = rt << arg;
+				break;
+
+			case 42 : /* SLT : Set on Less Than */  
+
+				if(rs < rt){
+
+					rd = 1;
+
+				}else{
+
+					rd = 0;
+
+				}
+		
+				registersWrite(ird,rd);
+				pcInc();
+				break;
+
+			case 2 : /* SRL & ROTR */
+
+				if((instruction & 0x00200000) == 0){ /* SRL */					
+					rd = rt >> arg;
+				}else{ /* ROTR */
+					
+				}
+				pcInc();
+				break;
+
+
+
+
+				
+
+
+
+
+
+
+
+
+
+
+			case 34 : /* SUB */
+
+				if(0 != SUB(&rd, rs, rt)){
+
+					perror("SUB error");
+					return -1;
+			
+				}
+
+				registersWrite(ird,rd);
+				pcInc();
+				break;
+
+			case 38 : /* XOR */
+
+				rd = rs ^ rt;
+				registersWrite(ird,rd); 
+				break;
+
+			default :
+
+				perror("instruction error");		
+				return -1;
+		}
+	}
+	return 0;
+}
 /*		case 2 :
 			J(arg);
 			break;
-
 		case 3 :
 			JAL(arg);
 			break;
-
 		case 8 :
 			JR(rs);
 			break;
-*/
-		case 15 : /* LUI : Load Upper Immediate */
-			
-			registersWrite(irt,(arg << 16));
-			pcInc();
-			break;
-
-		case 35 : /* LW : LOAD WORD */
-			
-			registersWrite(irt,memoryRead(rs + arg));
-			pcInc();
-			break;
-
-		case 16 : /* MFHI : MOVE FROM HI */
-
-			registersWrite(ird,registersRead(nti("hi")));
-			pcInc();
-			break;
-
-		case 18 : /* MFLO : MOVE FROM LO */
-
-			registersWrite(ird,registersRead(nti("lo")));
-			pcInc();
-			break;
-
-		case 24 : /* MULT */
-
-			if(0 != MULT(rs, rt)){
-
-				perror("MULT error");
-				return -1;
-
-			}
-
-			pcInc();
-			break;
-		
-		case 37 : /* OR */
-
-			rd = rs | rt;
-			registersWrite(ird,rd);
-			pcInc();	
-			break;
-
-/*
 		case 2 :
 			ROTR(&rt, rs, arg);
 			break;
-*/
-		case 0 : /* SLL : Shift Word Left Logical */
-
-			rd = rt << arg;
-			break;
-
-		case 42 : /* SLT : Set on Less Than */  
-
-			if(rs < rt){
-
-				rd = 1;
-
-			}else{
-
-				rd = 0;
-
-			}
-		
-			registersWrite(ird,rd);
-			pcInc();
-			break;
-
-		case 2 : /* SRL : Shift Word Right Logical */
-
-			rd = rt >> arg;
-			break;
-
-		case 34 : /* SUB */
-
-			if(0 != SUB(&rd, rs, rt)){
-
-				perror("SUB error");
-				return -1;
-			
-			}
-
-			registersWrite(ird,rd);
-			pcInc();
-			break;
-
-		case 43 : /* SW : Store Word */
-			
-			memoryWrite(rs + arg,rt);
-			pcInc();
-			break;
-/*
 		case 12 : 
 			SYSCALL();
 			break;
 */
-		case 38 : /* XOR */
 
-			rd = rs ^ rt;
-			registersWrite(ird,rd); 
-			break;
 
-		default :
+		
+	
 
-			perror("instruction error");		
-			return -1;
 
-	}
-
-	return 0;
-
-}
 
 
 int pcInc(void){

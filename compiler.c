@@ -463,7 +463,7 @@ int compile(char instruction[]){
 
 		opCode = 2;
 
-		res = (r[1] << 16) | (r[0] << 11) | (arg << 6);
+		res = (1 << 21) | (r[1] << 16) | (r[0] << 11) | (arg << 6);
 
 	}
 
