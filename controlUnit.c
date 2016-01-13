@@ -2,9 +2,6 @@
 
 int run(int adresse, int mode){
 
-	char key;
-
-
 	if(-1 == registersInit()){
 	
 		perror("registers init error\n");
@@ -44,14 +41,9 @@ int run(int adresse, int mode){
 
 		printf("Welocome in Step by Step mode !\n");
 		printf("press enter to begin\n");
-
-		do{
-
-			key = getchar();
-
-		}while(10 != key);
-
-
+		
+		getchar();
+		
 		while(memoryRead(registersRead(nti("pc"))) != 0){
 		
 
@@ -72,23 +64,15 @@ int run(int adresse, int mode){
 	
 
 			printf("press enter to continue\n");
-
-			do{
-
-				key = getchar();
-
-			}while(10 != key);
+		
+			getchar();
 
 
 
 		}
 
-		
-
-
-			
-
 		return 0;
+
 	}
 
 }
@@ -165,7 +149,14 @@ int exe(int instruction, int mode){
 
 			if(1 == mode) printf("ADD $%d, $%d, $%d\n",ird,irs,irt); 
 	
-			ADD(&rd, rs, rt);
+			if(0 !=	ADD(&rd, rs, rt)){
+
+				perror("ADD error");
+				return -1;	
+
+			}
+
+
 			registersWrite(ird,rd);
 			pcInc();
 			break;
@@ -174,7 +165,13 @@ int exe(int instruction, int mode){
 
 			if(1 == mode) printf("ADDI $%d, $%d, %d\n",irt,irs,arg);		
 			
-			ADDI(&rt, rs, arg);
+			
+			if(0 != ADDI(&rt, rs, arg)){
+			
+				perror("ADDI error");
+				return -1;
+			}
+
 			registersWrite(irt,rt);
 			pcInc();
 			break;
@@ -245,7 +242,13 @@ int exe(int instruction, int mode){
 
 		case 26 : /* DIV */
 
-			DIV(rs, rt);
+			if(0 != DIV(rs, rt)){
+
+				perror("DIV error");
+				return -1;
+		
+			}
+
 			pcInc();
 			break;
 
@@ -287,7 +290,13 @@ int exe(int instruction, int mode){
 
 		case 24 : /* MULT */
 
-			MULT(rs, rt);
+			if(0 != MULT(rs, rt)){
+
+				perror("MULT error");
+				return -1;
+
+			}
+
 			pcInc();
 			break;
 		
@@ -331,7 +340,13 @@ int exe(int instruction, int mode){
 
 		case 34 : /* SUB */
 
-			SUB(&rd, rs, rt);
+			if(0 != SUB(&rd, rs, rt)){
+
+				perror("SUB error");
+				return -1;
+			
+			}
+
 			registersWrite(ird,rd);
 			pcInc();
 			break;

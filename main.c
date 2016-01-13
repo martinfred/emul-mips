@@ -109,23 +109,37 @@ int main(int argc, char *argv[]){
 			} else {
 
 			/* clean terminal */
-				printf("\033[H\033[2J");
 
-				printf("Instruction : %s",instruction);
-		
 				inst = compile(instruction);
 	
-				printf("Compile : %X\n",inst);
+				if(inst == -1){
+				
+					printf("erreur dans la compilation\n");
 
-				exe(inst,0);
+				} else {
 
-				registersDisplay();
-	
-			}
+
+					if(0 != exe(inst,0)){
+
+						printf("erreur dans l'execution de l'instruction\n");
+
+					} else {
+
+						printf("\033[H\033[2J");
+		
+						printf("Instruction : %s",instruction);
+						printf("Compile : %X\n",inst);
+
+						registersDisplay();
+
+					}
+
+				}
 		}
-
-
 	}
+
+
+}
 	
 	printf("\n\n         <[°_°]>  THE END  <[°_°]>         \n\n");
 

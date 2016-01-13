@@ -1,6 +1,7 @@
 - fonction J, JR, ...
 - fonction LOAD et STORE
-
+- gestion des erreurs
+- gestion des instruction inutile (0xFFFF ?)
 - Comtpe rendu
 
 - version_1

@@ -1,8 +1,11 @@
 #include "alu.h"
 
+int MAX = 32767; /* INT_MAX */
+int MIN = -32768; /* INT_MIN */
+
 int ADD(int *rd, int rs, int rt){
 
-	if((rs > 0 && rt > INT_MAX - rs) || (rs < 0 && rt < INT_MIN - rs)){
+	if((rs > 0 && rt > MAX - rs) || (rs < 0 && rt < MIN - rs)){
 
 		perror("Overflow");
 		return -1;
@@ -19,7 +22,7 @@ int ADD(int *rd, int rs, int rt){
 
 int ADDI(int *rd, int rs, int i){
 
-	if((rs > 0 && i > INT_MAX - rs) || (rs < 0 && i < INT_MIN - rs)){
+	if((rs > 0 && i > MAX - rs) || (rs < 0 && i < MIN - rs)){
 
 		perror("Overflow");
 		return -1;
@@ -36,7 +39,7 @@ int ADDI(int *rd, int rs, int i){
 
 int SUB(int *rd, int rs, int rt){
 
-	if ((rs > 0 && rt < rs - INT_MAX) || (rs < 0 && rt > rs - INT_MIN)){
+	if ((rs > 0 && rt < rs - MAX) || (rs < 0 && rt > rs - MIN)){
 		
 		perror("Overflow");
 		return -1;
