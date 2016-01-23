@@ -1,6 +1,0 @@
-SW $t0, 0x0A	#On met 10 en mémoire 
-SW $t1, 0x05	#On met 5 en mémoire
-SLT $t2, $t0, $t1	#t2 = 0 
-SLT $t3, $t1, $t0	#t3 = 1 
-SW $t1, 0x0A	#On met 10 en mémoire
-SLT $t4, $t0, $t1	#t4 = 1
