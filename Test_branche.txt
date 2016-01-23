@@ -1,7 +1,0 @@
-ADDI $t0, $zero, 10	#0x00000000
-ADDI $t1, $zero, 2	#0x00000004
-BEQ $t0, $t1, 0x18	#0x00000008
-ADDI $t1, $t1, 50	#0x0000000C
-J 0x02			#0x00000010 -> branchement à PC(=0x10) + 0x02 << 2 (=0x08) = 0x18
-ADDI $t1, $zero, 1	#0x00000014
-EXIT			#0x00000018
