@@ -287,6 +287,8 @@ int compile(char instruction[]){
 			
 			} 
 
+			/* ( base ) */
+
 			if('(' == inst[i]){
 				
 				j = i + 1;
@@ -302,8 +304,7 @@ int compile(char instruction[]){
 				}
 
 				i += n + 1;
-
-				printf("base : %d\n",base);	
+				
 			}
   
 		}				
@@ -414,7 +415,7 @@ int compile(char instruction[]){
 	if(strcmp(operation,"LW") == 0) {
 
 		opCode = 35; 
-		printf("LW : base = %d, rt = %d, arg = %d\n",base,r[0],arg);
+
 		res = (opCode << 26) | base << 21 | (r[0] << 16) | arg;
 
 	}

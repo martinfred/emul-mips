@@ -161,12 +161,21 @@ int exe(int instruction, int mode){
 	rd = registersRead(ird);
 
 	/*_______Execute_________*/
+
+	printf("irs : %d, irt : %d, ird : %d\n",irs,irt,ird);
+	printf("rs : %d, rt : %d, rd : %d\n",rs,rt,rd);
+	printf("arg : %d\n",arg);
+
+
+
 	if(0  == spec){
 
 		switch(opCode){
 
 			case 8 : /* ADDI */
-			
+
+				if(1 == mode) printf("ADDI $%d, $%d, %d\n",irs,irt,arg);
+
 				if(0 != ADDI(&rt, rs, arg)){
 			
 					perror("ADDI error");
@@ -179,6 +188,8 @@ int exe(int instruction, int mode){
 				break;
 
 			case 4 : /* BEQ */
+
+				if(1 == mode) printf("BEQ $%d, $%d, %d\n",irs,irt,arg);
 
 				if(rs == rt){
 		
@@ -194,6 +205,8 @@ int exe(int instruction, int mode){
 
 			case 7 : /* BGTZ */
 
+				if(1 == mode) printf("BGTZ $%d, %d\n",irs,arg);
+
 				if(rs > 0){
 		
 					registersWrite(nti("pc"),registersRead(nti("pc")) +  arg);
@@ -207,6 +220,8 @@ int exe(int instruction, int mode){
 				break;
 
 			case 6 : /* BLEZ */
+
+				if(1 == mode) printf("BLEZ $%d, %d\n",irs,arg);
 
 				if(rs <= 0){
 		
@@ -236,18 +251,26 @@ int exe(int instruction, int mode){
 
 			case 15 : /* LUI : Load Upper Immediate */
 			
+				if(1 == mode) printf("LUI $%d, %d\n",irt,arg);
+
 				registersWrite(irt,(arg << 16));
 				pcInc();
 				break;
 
 			case 35 : /* LW : LOAD WORD */
+	
+				/* base = irs */
+
+				if(1 == mode) printf("LW $%d, %d(%d)\n",irt,arg,irs);
 			
-				registersWrite(irt,memoryRead(rs + arg));
+				registersWrite(irt,memoryRead(irs + arg));
 				pcInc();
 				break;
 
 			case 43 : /* SW : Store Word */
-			
+		
+				if(1 == mode) printf("SW $%d, %d(%d)\n",irt,arg,irs);
+	
 				memoryWrite(rs + arg,rt);
 				pcInc();
 				break;
@@ -267,6 +290,8 @@ int exe(int instruction, int mode){
 		switch(opCode){
 
 			case 32 :  /* ADD */
+
+				if(1 == mode) printf("ADD $%d,$%d,$%d\n",ird,irs,irt);
 	
 				if(0 !=	ADD(&rd, rs, rt)){
 
@@ -275,19 +300,22 @@ int exe(int instruction, int mode){
 
 				}
 
-
 				registersWrite(ird,rd);
 				pcInc();
 				break;
 
 			case 36 : /* AND */
 
+				if(1 == mode) printf("AND $%d, $%d, $%d\n",irs,irt,ird);
+	
 				rd = rs & rt;
 				registersWrite(ird,rd),
 				pcInc();
 				break;
 
 			case 26 : /* DIV */
+
+				if(1 == mode) printf("DIV $%d, $%d\n",irs,irt);
 
 				if(0 != DIV(rs, rt)){
 
@@ -301,17 +329,23 @@ int exe(int instruction, int mode){
 
 			case 16 : /* MFHI : MOVE FROM HI */
 
+				if(1 == mode) printf("MFHI $%d\n",ird);
+
 				registersWrite(ird,registersRead(nti("hi")));
 				pcInc();
 				break;
 
 			case 18 : /* MFLO : MOVE FROM LO */
 
+				if(1 == mode) printf("MFLO $%d\n",ird);
+
 				registersWrite(ird,registersRead(nti("lo")));
 				pcInc();
 				break;
 
 			case 24 : /* MULT */
+
+				if(1 == mode) printf("MULT $%d, $%d\n",irs,irt);
 
 				if(0 != MULT(rs, rt)){
 
@@ -328,6 +362,8 @@ int exe(int instruction, int mode){
 
 			case 37 : /* OR */
 
+				if(1 == mode) printf("OR $%d, $%d, $%d\n",irs,irt,ird);
+
 				rd = rs | rt;
 				registersWrite(ird,rd);
 				pcInc();	
@@ -335,10 +371,14 @@ int exe(int instruction, int mode){
 
 			case 0 : /* SLL : Shift Word Left Logical */
 
+				if(1 == mode) printf("SLL $%d, $%d, %d\n",ird,irt,arg);
+
 				rd = rt << arg;
 				break;
 
 			case 42 : /* SLT : Set on Less Than */  
+
+				if(1 == mode) printf("SLT $%d, $%d, $%d\n",irs,irt,ird);
 
 				if(rs < rt){
 
@@ -356,18 +396,27 @@ int exe(int instruction, int mode){
 
 			case 2 : /* SRL & ROTR */
 
+			
+
 				if((instruction & (0x1 << 21)) == 0){ /* SRL */
-		
+			
+					if(1 == mode) printf("SRL $%d, $%d, $%d\n",irs,irt,ird);
+	
 					rd = rt >> arg;
 	
 				}else{ /* ROTR */
 					
+					if(1 == mode) printf("ROTR $%d, $%d, $%d\n",irs,irt,ird);
+
+
 				}
 
 				pcInc();
 				break;
 
 			case 34 : /* SUB */
+
+				if(1 == mode) printf("SUB $%d, $%d, $%d\n",irs,irt,ird);
 
 				if(0 != SUB(&rd, rs, rt)){
 
@@ -382,6 +431,8 @@ int exe(int instruction, int mode){
 
 			case 38 : /* XOR */
 
+				if(1 == mode) printf("XOR $%d, $%d, $%d\n",irs,irt,ird);
+
 				rd = rs ^ rt;
 				registersWrite(ird,rd); 
 				break;
@@ -390,10 +441,13 @@ int exe(int instruction, int mode){
 
 				perror("instruction error");		
 				return -1;
+	
 		}
 	}
+
 	return 0;
 }
+
 /*		case 2 :
 			J(arg);
 			break;

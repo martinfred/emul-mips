@@ -40,12 +40,16 @@ int main(int argc, char *argv[]){
 
 
 /*  <[°_°]> debug <[°_°]>  */
-/*
 
+/*
 	while(1){
 
-		printf("LW $s0, 100(3)\n");
-		compile("LW $s0, 100(3)\0");
+		printf("SW - LW\n");
+		
+		memoryWrite(22,42);
+
+		printf("%d\n",memoryRead(22));
+
 
 		return 0;
 
