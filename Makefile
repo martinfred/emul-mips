@@ -38,5 +38,6 @@ registers.o : registers.c
 save.o : save.c
 	gcc -c save.c -Wall -ansi -pedantic -o save.o
 
-
+clean :
+	rm *.o
 

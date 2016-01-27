@@ -16,7 +16,7 @@ Valence
 
 #include "memory.h"
 
-int mem[4096];
+int mem[256];
 
 int memoryRead(int i){
 

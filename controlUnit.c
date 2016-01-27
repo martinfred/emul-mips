@@ -112,10 +112,10 @@ int exe(int instruction, int mode){
 	rd = 0;
 	arg = 0;
 
-	/*________Instruction Decode________*/
+	
 	/*________Register Fetch________*/
 
-	if(((63 << 26) & instruction) == 0) /* SPECIAL */
+	if(((0x3F << 26) & instruction) == 0) /* SPECIAL */
 	{ 
 		spec = 1;
 		opCode = instruction & 63;	/*masque*/
@@ -162,17 +162,16 @@ int exe(int instruction, int mode){
 
 	/*_______Execute_________*/
 	if(0  == spec){
+
 		switch(opCode){
 
 			case 8 : /* ADDI */
-
-				if(1 == mode) printf("ADDI $%d, $%d, %d\n",irt,irs,arg);		
-			
 			
 				if(0 != ADDI(&rt, rs, arg)){
 			
 					perror("ADDI error");
 					return -1;
+
 				}
 
 				registersWrite(irt,rt);
@@ -262,12 +261,12 @@ int exe(int instruction, int mode){
 				perror("instruction error");		
 				return -1;
 		}
-	}else{
+
+	}else{ /* spec == 1 */
+
 		switch(opCode){
 
 			case 32 :  /* ADD */
-
-				if(1 == mode) printf("ADD $%d, $%d, $%d\n",ird,irs,irt); 
 	
 				if(0 !=	ADD(&rd, rs, rt)){
 
@@ -324,6 +323,9 @@ int exe(int instruction, int mode){
 				pcInc();
 				break;
 
+			/* NOP ? */
+
+
 			case 37 : /* OR */
 
 				rd = rs | rt;
@@ -354,27 +356,16 @@ int exe(int instruction, int mode){
 
 			case 2 : /* SRL & ROTR */
 
-				if((instruction & 0x00200000) == 0){ /* SRL */					
+				if((instruction & (0x1 << 21)) == 0){ /* SRL */
+		
 					rd = rt >> arg;
+	
 				}else{ /* ROTR */
 					
 				}
+
 				pcInc();
 				break;
-
-
-
-
-				
-
-
-
-
-
-
-
-
-
 
 			case 34 : /* SUB */
 
@@ -422,9 +413,6 @@ int exe(int instruction, int mode){
 
 
 		
-	
-
-
 
 
 int pcInc(void){
