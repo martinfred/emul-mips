@@ -99,6 +99,7 @@ int exe(int instruction, int mode){
 
 	int opCode;
 	int spec = -1;
+	int temp;
 	
 	int rs, rt, rd, arg;
 	int irs, irt, ird;
@@ -124,14 +125,20 @@ int exe(int instruction, int mode){
 		irt = ((0x1F << 16) & instruction) >> 16;
 		ird = ((0x1F << 11) & instruction) >> 11;
 
-		if(2 == opCode){
+		if(2 == opCode){ /*Argument de la fonction ROTR*/
 
-			arg = (instruction & 0x7C0) >> 6 ;
+			arg = (instruction & 0x7C0) >> 6;
 		
 		}else{
+			if(3 == opCode){ /*Argument de la fonction JAL*/
 
-			arg = 0xFFFF & instruction;
+				arg = 0x3FFFFFF & instruction;
 
+			}else{
+
+				arg = 0xFFFF & instruction;
+
+			}
 		}		
 
 	}else{ /* not SPECIAL */
@@ -282,6 +289,13 @@ int exe(int instruction, int mode){
 				break;
 
 			case 2 : /* J*/
+				registersWrite(nti("pc"), arg);
+				break;
+
+			case 3 : /*JAL*/
+				temp = registersRead(nti("pc")) + 1;
+				printf("\n\ntemp = %d\n\n", temp);
+				registersWrite(nti("ra"), temp);
 				registersWrite(nti("pc"), arg);
 				break;
 		
@@ -442,6 +456,10 @@ int exe(int instruction, int mode){
 				registersWrite(ird,rd); 
 				break;
 
+			case 8 : /* JR */
+				registersWrite(nti("pc"), rs);
+				break;
+
 			default :
 
 				perror("instruction error");		
@@ -453,26 +471,11 @@ int exe(int instruction, int mode){
 	return 0;
 }
 
-/*		case 2 :
-			J(arg);
-			break;
-		case 3 :
-			JAL(arg);
-			break;
-		case 8 :
-			JR(rs);
-			break;
-		case 2 :
-			ROTR(&rt, rs, arg);
-			break;
+/*		
 		case 12 : 
 			SYSCALL();
 			break;
 */
-
-
-		
-
 
 int pcInc(void){
 
