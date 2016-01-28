@@ -2,6 +2,8 @@
 
 rm *.o
 rm *.sav
+rm *.c~
+rm *.h~
 
 rm emul-mips
 

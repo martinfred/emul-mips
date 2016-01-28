@@ -124,9 +124,15 @@ int exe(int instruction, int mode){
 		irt = ((0x1F << 16) & instruction) >> 16;
 		ird = ((0x1F << 11) & instruction) >> 11;
 
+		if(2 == opCode){
 
-		arg = 0xFFFF & instruction;
-				
+			arg = (instruction & 0x7C0) >> 6 ;
+		
+		}else{
+
+			arg = 0xFFFF & instruction;
+
+		}		
 
 	}else{ /* not SPECIAL */
 
@@ -396,18 +402,17 @@ int exe(int instruction, int mode){
 
 			case 2 : /* SRL & ROTR */
 
-			
-
-				if((instruction & (0x1 << 21)) == 0){ /* SRL */
+				if(0 == (instruction & (1 << 21))){ /* SRL */
 			
 					if(1 == mode) printf("SRL $%d, $%d, $%d\n",irs,irt,ird);
 	
 					rd = rt >> arg;
+					registersWrite(ird,rd);
 	
 				}else{ /* ROTR */
 					
-					if(1 == mode) printf("ROTR $%d, $%d, $%d\n",irs,irt,ird);
-
+					ROTR(&rd, rt, arg); 
+					registersWrite(ird,rd);
 
 				}
 
@@ -483,32 +488,26 @@ int pcInc(void){
 
 }
 
-/*
-
-
-int ROTR(int *rd, int rt, int sa){
+int ROTR(int *rd, int rt, int arg){
 	
-	int k, l;
+	int k;
 	int masque = 1;
 	int temp;
-	int taille;
 	
-	taille = sizeof(rt);
+	/*Création du masque*/
+	for(k = 1; k < arg; k++){
 
-	for(k = 1; k < sa; k++){
-		for(l = 0; l < sa; l++){
-			masque *= 2;
-		}
+		masque = (masque*2) + 1;
+
 	}
-	
+	/*Rotation*/
 	temp = rt & masque;
-	
-	rt = rt >> sa;
-	temp = temp << (taille - sa);
+	rt = rt >> arg;
+	temp = temp << (32 - arg);
 	*rd = rt | temp;
 
 	return 0;
 
 }
 
-*/
+

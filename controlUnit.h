@@ -31,5 +31,7 @@ int exe(int instruction, int mode);
 /* frame pointer increment */
 int pcInc(void);
 
+int ROTR(int *rd, int rt, int arg);
+
 
 
