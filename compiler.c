@@ -646,7 +646,7 @@ int memoryCompile(char file[]){
 
 			}
 			
-			j++;
+			j++; 
 		}
 
 

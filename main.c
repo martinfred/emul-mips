@@ -13,7 +13,6 @@ Valence
 */
 
 
-
 #include <stdio.h>
 #include <string.h>
 
@@ -35,31 +34,6 @@ int main(int argc, char *argv[]){
 	int nbsave = 0;
 
 	printf("\033[H\033[2J");
-
-
-
-
-/*  <[°_°]> debug <[°_°]>  */
-
-/*
-	while(1){
-
-		printf("SW - LW\n");
-		
-		memoryWrite(22,42);
-
-		printf("%d\n",memoryRead(22));
-
-
-		return 0;
-
-	}
-*/	
-
-
-
-
-	
 	printf("\n\n\n         <[°_°]> EMUL MIPS <[°_°]>         \n\n\n");
 
 	if(argc != 1){ /*__________mode file__________*/
@@ -79,8 +53,7 @@ int main(int argc, char *argv[]){
 
 		}
 			
-
-				
+	
 		memoryCompile(argv[1]);
 		
 		run(0,mode);

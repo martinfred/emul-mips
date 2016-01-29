@@ -135,8 +135,15 @@ int exe(int instruction, int mode){
 				arg = 0x3FFFFFF & instruction;
 
 			}else{
+				if(0 == opCode){ /*Argument de la fonction SLL*/
 
-				arg = 0xFFFF & instruction;
+					arg = (0x7C0 & instruction) >> 6;
+
+				}else{
+
+					arg = 0xFFFF & instruction;
+
+				}
 
 			}
 		}		
@@ -389,11 +396,16 @@ int exe(int instruction, int mode){
 				pcInc();	
 				break;
 
-			case 0 : /* SLL : Shift Word Left Logical */
+			case 0 : /* SLL : Shift Word Left Logical and NOP */
+				if(0 == (instruction & 0xFFFFFFFF));
+				else{
+					if(1 == mode) printf("SLL $%d, $%d, %d\n",ird,irt,arg);
 
-				if(1 == mode) printf("SLL $%d, $%d, %d\n",ird,irt,arg);
+					rd = rt << arg;
+					registersWrite(ird,rd);
+				}
+				pcInc();
 
-				rd = rt << arg;
 				break;
 
 			case 42 : /* SLT : Set on Less Than */  
