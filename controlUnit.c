@@ -397,8 +397,8 @@ int exe(int instruction, int mode){
 				break;
 
 			case 0 : /* SLL : Shift Word Left Logical and NOP */
-				if(0 == (instruction & 0xFFFFFFFF));
-				else{
+				if(0 == (instruction & 0xFFFFFFFF)); /*NOP*/
+				else{ /* SLL */
 					if(1 == mode) printf("SLL $%d, $%d, %d\n",ird,irt,arg);
 
 					rd = rt << arg;
