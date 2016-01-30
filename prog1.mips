@@ -1,0 +1,11 @@
+#Instructions arithmétiques
+ADDI $s0, $zero, 50
+ADDI $s1, $zero, 10
+ADD $s2, $s0, $s1
+SUB $s3, $s0, $s1
+SUB $s4, $s1, $s0 #résultat négatif
+MULT $s0, $s1
+MFLO $s5
+DIV $s0, $s1
+MFLO $s6
+EXIT

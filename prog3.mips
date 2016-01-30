@@ -1,0 +1,20 @@
+#Instructions de branchement et de saut
+ADDI $s0, $zero, 50	#pc = 0
+J 4			#pc = 1
+ADDI $s1, $zero, 10	#pc = 2
+ADDI $s1, $zero, 20	#pc = 3
+ADDI $s2, $s1, 50	#pc = 4
+BEQ $s0, $s2, 3		#pc = 5
+SUB $s2, $s2, $1	#pc = 6
+BNE $s2, $s0, 9		#pc = 7
+ADDI $s0, $zero, 11	#pc = 8
+JR $s0			#pc = 9
+MULT $s0, $s1		#pc = 10
+ADDI $s0, $zero, 14	#pc = 11
+ADDI $s1, $zero, 15	#pc = 12
+SUB $s0, $s0, $s1	#pc = 13
+BGTZ $s0, 16		#pc = 14
+BLEZ $s0, 17		#pc = 15
+ADDI $t0, $zero, 1	#pc = 16
+ADDI $t0, $zero, 800	#pc = 17
+EXIT			#pc = 18
