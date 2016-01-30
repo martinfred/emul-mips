@@ -296,10 +296,16 @@ int exe(int instruction, int mode){
 				break;
 
 			case 2 : /* J*/
+			
+				if(1 == mode) printf("J %d\n",arg);
+
 				registersWrite(nti("pc"), arg);
 				break;
 
 			case 3 : /*JAL*/
+
+				if(1 == mode) printf("JAL %d\n",arg);
+
 				temp = registersRead(nti("pc")) + 1;
 				printf("\n\ntemp = %d\n\n", temp);
 				registersWrite(nti("ra"), temp);
@@ -384,9 +390,7 @@ int exe(int instruction, int mode){
 				pcInc();
 				break;
 
-			/* NOP ? */
-
-
+			
 			case 37 : /* OR */
 
 				if(1 == mode) printf("OR $%d, $%d, $%d\n",irs,irt,ird);
@@ -397,8 +401,13 @@ int exe(int instruction, int mode){
 				break;
 
 			case 0 : /* SLL : Shift Word Left Logical and NOP */
-				if(0 == (instruction & 0xFFFFFFFF)); /*NOP*/
-				else{ /* SLL */
+
+				if(0 == (instruction & 0xFFFFFFFF)){ /*NOP*/
+			
+					if(1 == mode) printf("NOP\n");
+
+				} else { /* SLL */
+
 					if(1 == mode) printf("SLL $%d, $%d, %d\n",ird,irt,arg);
 
 					rd = rt << arg;
@@ -436,6 +445,8 @@ int exe(int instruction, int mode){
 					registersWrite(ird,rd);
 	
 				}else{ /* ROTR */
+
+					if(1 == mode) printf("ROTR $%d, $%d, %d\n",irs,irt,arg);
 					
 					ROTR(&rd, rt, arg); 
 					registersWrite(ird,rd);
@@ -465,10 +476,14 @@ int exe(int instruction, int mode){
 				if(1 == mode) printf("XOR $%d, $%d, $%d\n",irs,irt,ird);
 
 				rd = rs ^ rt;
-				registersWrite(ird,rd); 
+				registersWrite(ird,rd);
+				pcInc(); 
 				break;
 
 			case 8 : /* JR */
+				
+				if(1 == mode) printf("JR $%d\n",irs);
+
 				registersWrite(nti("pc"), rs);
 				break;
 
@@ -483,11 +498,6 @@ int exe(int instruction, int mode){
 	return 0;
 }
 
-/*		
-		case 12 : 
-			SYSCALL();
-			break;
-*/
 
 int pcInc(void){
 
