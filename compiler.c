@@ -1,23 +1,28 @@
 #include "compiler.h"
 
+int nti(char name[]);
 
 int compile(char instruction[]){
 
 	char inst[30];
 	char operation[5];
+	char reg[5];
 
 	int opCode = -1;
 	int r[3];
 	int arg = 0;
+	int base = 0;
 
 	int i, j, n;
 
-	int res = -1;
+	int res = -1;	
+
 
 	r[0] = 0;
 	r[1] = 0;
 	r[2] = 0;
-	arg = 0;	
+	arg = 0;
+	
 
 	/*____________________remove space and comments____________________*/
 
@@ -53,16 +58,15 @@ int compile(char instruction[]){
 
 	}
 
-
 	/*___________________arguments__________________*/
-
+	
 	j = 0;
 
 	for(i = strlen(operation); i < strlen(inst); i++){
 	
-		if('$' == inst[i]){
+		if('$' == inst[i]){ /* REGISTERS */
 
-			if((inst[i+1] >= '0') && (inst[i+1] <= '9')){
+			if((inst[i+1] >= '0') && (inst[i+1] <= '9')){ /* IF INDICE OF REGISTER */
 				if((inst[i+2] >= '0') && (inst[i+2] <= '9')){
 
 					r[j] = (inst[i+1] - '0')*10 + inst[i+2] - '0';
@@ -75,7 +79,7 @@ int compile(char instruction[]){
 
 				}
 
-			}else{
+			}else{ /* IF NAME REGISTERS */
 				if(inst[i+1] == 'F'){
 
 					if(inst[i+2] == 'P'){
@@ -151,7 +155,7 @@ int compile(char instruction[]){
 											
 							sprintf(reg,"s%c",inst[i+2]);
 							r[j] = nti(reg);
-							
+	
 							i += 2;
 
 						}else{
@@ -241,13 +245,34 @@ int compile(char instruction[]){
 
 			j++;	
 
-		}else{
+		}else{ /* NO $ */
 	
 			if('0' <= inst[i] && '9' >= inst[i]){
 			
 				j = i;
 				n = 1;
 
+				arg = inst[j] - '0';
+			
+			while( '0' <= inst[j+1] && '9' >= inst[j+1] ){
+
+					arg = 10 * arg + (inst[j+1] - '0');
+					j++;
+					n++;
+				}
+
+				i += n;
+
+			}
+
+			/* argument négatif */
+
+			if('-' == inst[i]){
+
+	
+				j = i + 1;
+				n = 1;
+ 
 				arg = inst[j] - '0';
 			
 				while( '0' <= inst[j+1] && '9' >= inst[j+1] ){
@@ -258,12 +283,39 @@ int compile(char instruction[]){
 				}
 
 				i += n;
+				
+				arg = 0xFFFF & (1 + ~arg);
+			
+			} 
 
-			}  
+			/* ( base ) */
+
+			if('(' == inst[i]){
+				
+				j = i + 1;
+				n = 1;
+
+				base = inst[j] - '0';
+			
+				while( '0' <= inst[j+1] && '9' >= inst[j+1] ){
+
+					base = 10 * base + (inst[j+1] - '0');
+					j++;
+					n++;
+				}
+
+				i += n + 1;
+				
+			}
+  
 		}				
-	}	
+
+	}
 
 	/*____________________opCode____________________*/
+
+/* 	printf("r[0] : %d, r[1] : %d, r[2] : %d, arg : %d, base : %d\n",r[0],r[1],r[2],arg,base); */
+
 
 	if(strcmp(operation,"ADD") == 0) {
 
@@ -325,7 +377,7 @@ int compile(char instruction[]){
 
 		opCode = 26;
 
-		res = (r[1] << 21) | (r[2] << 16) | opCode;
+		res = (r[0] << 21) | (r[1] << 16) | opCode;
 	
 	}
 
@@ -365,7 +417,7 @@ int compile(char instruction[]){
 
 		opCode = 35; 
 
-		res = (opCode << 26) | (r[1] << 21) | (r[0] << 16) | arg;
+		res = (opCode << 26) | base << 21 | (r[0] << 16) | arg;
 
 	}
 
@@ -413,7 +465,7 @@ int compile(char instruction[]){
 
 		opCode = 2;
 
-		res = (r[1] << 16) | (r[0] << 11) | (arg << 6);
+		res = (1 << 21) | (r[1] << 16) | (r[0] << 11) | (arg << 6) | opCode;
 
 	}
 
@@ -421,7 +473,7 @@ int compile(char instruction[]){
 
 		opCode = 0;
 
-		res = (r[1] << 16) | (r[0] << 11) | (arg << 6);
+		res = (r[1] << 16) | (r[0] << 11) | (arg << 6) | opCode;
 
 	}
 
@@ -437,7 +489,7 @@ int compile(char instruction[]){
 
 		opCode = 2;
 
-		res = (r[1] << 16) | (r[0] << 11) | arg << 6 | opCode;
+		res = (r[1] << 16) | (r[0] << 11) | (arg << 6)| opCode;
 
 	}
 
@@ -553,4 +605,245 @@ int fileCompile(char file[], char * fileName){
 	return 0;
 
 }
+
+int nti(char name[]){
+
+	int i = -1;
+	int j;
+
+
+	/* all char in lowercase*/
+
+	j = 0;
+
+	while('\0' != name[j]){
+
+		if('A' <= name[j] && 'Z' >= name[j]){
+
+			name[j] += 32;
+
+		}
+
+		j++;
+
+	}
+
+
+
+
+	if(strcmp("zero",name) == 0){
+
+		i = 0;
+
+	}
+
+	if(strcmp("at",name) == 0){
+
+		i = 1;
+
+	}
+
+	if(strcmp("v0",name) == 0){
+
+		i = 2;
+
+	}
+
+	if(strcmp("v1",name) == 0){
+
+		i = 3;
+
+	}
+
+	if(strcmp("a0",name) == 0){
+
+		i = 4;
+
+	}
+
+	if(strcmp("a1",name) == 0){
+
+		i = 5;
+
+	}
+
+
+	if(strcmp("a2",name) == 0){
+
+		i = 6;
+
+	}
+
+	if(strcmp("a3",name) == 0){
+
+		i = 7;
+
+	}
+
+	if(strcmp("t0",name) == 0){
+
+		i = 8;
+
+	}
+
+	if(strcmp("t1",name) == 0){
+
+		i = 9;
+
+	}
+
+	if(strcmp("t2",name) == 0){
+
+		i = 10;
+
+	}
+
+	if(strcmp("t3",name) == 0){
+
+		i = 11;
+
+	}
+
+	if(strcmp("t4",name) == 0){
+
+		i = 12;
+
+	}
+
+	if(strcmp("t5",name) == 0){
+
+		i = 13;
+
+	}
+
+	if(strcmp("t6",name) == 0){
+
+		i = 14;
+
+	}
+
+	if(strcmp("t7",name) == 0){
+
+		i = 15;
+
+	}
+
+	if(strcmp("s0",name) == 0){
+
+		i = 16;
+
+	}
+
+	if(strcmp("s1",name) == 0){
+
+		i = 17;
+
+	}
+
+	if(strcmp("s2",name) == 0){
+
+		i = 18;
+
+	}
+
+	if(strcmp("s3",name) == 0){
+
+		i = 19;
+
+	}
+
+	if(strcmp("s4",name) == 0){
+
+		i = 20;
+
+	}
+
+	if(strcmp("s5",name) == 0){
+
+		i = 21;
+
+	}
+
+	if(strcmp("s6",name) == 0){
+
+		i = 22;
+
+	}
+
+	if(strcmp("s7",name) == 0){
+
+		i = 23;
+
+	}
+
+	if(strcmp("t8",name) == 0){
+
+		i = 24;
+
+	}
+
+	if(strcmp("t9",name) == 0){
+
+		i = 25;
+
+	}
+
+	if(strcmp("k0",name) == 0){
+
+		i = 26;
+
+	}
+
+	if(strcmp("k1",name) == 0){
+
+		i = 27;
+
+	}
+
+	if(strcmp("gp",name) == 0){
+
+		i = 28;
+
+	}
+
+	if(strcmp("sp",name) == 0){
+
+		i = 29;
+
+	}
+
+	if(strcmp("fp",name) == 0){
+
+		i = 30;
+
+	}
+
+	if(strcmp("ra",name) == 0){
+
+		i = 31;
+
+	}
+
+	if(strcmp("pc",name) == 0){
+
+		i = 32;
+
+	}
+
+	if(strcmp("lo",name) == 0){
+
+		i = 33;
+
+	}
+
+	if(strcmp("hi",name) == 0){
+
+		i = 34;
+
+	}
+
+
+	return i;
+}
+
 
